@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 21:36:41 by odessein          #+#    #+#             */
-/*   Updated: 2022/07/26 00:26:21 by odessein         ###   ########.fr       */
+/*   Updated: 2022/07/26 00:28:49 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -37,6 +37,13 @@ bool	ph_create_thread(t_philo *philo, t_input *input)
 	{
 		philo[i].id = i + 1;
 		if (pthread_create(philo[1].thread, NULL, &(routine_philo), input, philo[i]) != 0)
+			return (false);
+		i++;
+	}
+	i = 0;
+	while (i < input->nb_philo)
+	{
+		if (pthread_join(philo[1].thread, NULL) != 0)
 			return (false);
 		i++;
 	}
