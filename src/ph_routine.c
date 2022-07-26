@@ -8,8 +8,13 @@
 
 //Si le nombre de philo est impaire faire sleep tous les pair + le premier philo / tous les impaire mange 
 //Ensuite les paire mange puis l
+
 void	*routine(void *philo)
 {
+	t_philo	phil;
+
+	phil = *philo;
+	printf("philo nb : %i\n", phil.id);
 	//tant que time to eat du philo precedent et suivant n'est pas fini / think ou nothing if not started
 	//ensuite access au fork
 }

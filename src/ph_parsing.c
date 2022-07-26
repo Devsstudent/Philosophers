@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:32:35 by odessein          #+#    #+#             */
-/*   Updated: 2022/07/25 21:36:26 by odessein         ###   ########.fr       */
+/*   Updated: 2022/07/26 16:23:11 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -23,27 +23,23 @@ bool	ph_parse(int ac, char **av, t_input *input)
 	while (i < ac - 1)
 	{
 		j = 0;
-		while (av[j] != 0)
+		while (av[i][j] != 0)
 		{
-			if (av[j] < '0' || av[j] > '9')
-				return (FALSE);
+			if (av[i][j] < '0' || av[i][j] > '9')
+				return (false);
 			j++;
 		}
 		if (j > 9)
-			return (FALSE);
+			return (false);
 		i++;
 	}
 	ph_fill_input(ac, av, input);
-	return (TRUE);
+	return (true);
 }
 
 void	ph_fill_input(int ac, char **av, t_input *input)
 {
 	input->nb_philo = ph_atoi(av[1]);
-	if (input->nb_philo > 1)
-		input->fork = nb_philo / 2;
-	else
-		input->fork = 1;
 	input->time_to_die = ph_atoi(av[2]);
 	input->time_to_eat = ph_atoi(av[3]);
 	input->time_to_sleep = ph_atoi(av[4]);

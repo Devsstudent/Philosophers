@@ -6,14 +6,14 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 21:36:41 by odessein          #+#    #+#             */
-/*   Updated: 2022/07/26 00:28:49 by odessein         ###   ########.fr       */
+/*   Updated: 2022/07/26 17:19:37 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
 
 //At the start should wait to start process about if it is pair or impair -> if pair 
 
-=>//Idea of time function get_time etc to display it and know from which time the philo eated last time
+//Idea of time function get_time etc to display it and know from which time the philo eated last time
 
 
 
@@ -34,8 +34,7 @@ bool	ph_create_thread(t_philo *philo, t_input *input)
 	philo = malloc(sizeof(t_philo) * input->nb_philo);
 	if (!philo)
 		return (false);
-	i = 0;
-	while (i < input->nb_philo)
+	i = 0; while (i < input->nb_philo)
 	{
 		philo[i].id = i + 1;
 		if (pthread_create(philo[i].thread, NULL, &(routine_philo), input, philo[i]) != 0)
@@ -50,4 +49,3 @@ bool	ph_create_thread(t_philo *philo, t_input *input)
 		i++;
 	}
 }
-

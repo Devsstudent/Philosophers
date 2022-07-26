@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 21:28:31 by odessein          #+#    #+#             */
-/*   Updated: 2022/07/25 21:32:27 by odessein         ###   ########.fr       */
+/*   Updated: 2022/07/26 16:30:34 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -34,7 +34,7 @@ int	ph_atoi(const char *nptr)
 			neg_sign = -1;
 		i++;
 	}
-	while (nptr[i] != '\0' && nptr[i] != ' ' && ft_isdigit(nptr[i]))
+	while (nptr[i] != '\0' && nptr[i] != ' ' && ph_isdigit(nptr[i]))
 	{
 		if ((long)(res * neg_sign) < -2147483648)
 			return (0);
@@ -46,4 +46,11 @@ int	ph_atoi(const char *nptr)
 	}
 	res *= neg_sign;
 	return ((int) res);
+}
+
+bool	ph_isdigit(int c)
+{
+	if (c < '0' || c > '9')
+		return (false);
+	return (true);
 }
