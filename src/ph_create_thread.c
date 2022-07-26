@@ -20,6 +20,8 @@
 //Loop create thread for each philo ! Need to store the return value of the pthread_create
 //Send the routine function to each thread
 
+
+
 //What to put in the routine function 
 //Attribution of the fork
 
@@ -36,14 +38,14 @@ bool	ph_create_thread(t_philo *philo, t_input *input)
 	while (i < input->nb_philo)
 	{
 		philo[i].id = i + 1;
-		if (pthread_create(philo[1].thread, NULL, &(routine_philo), input, philo[i]) != 0)
+		if (pthread_create(philo[i].thread, NULL, &(routine_philo), input, philo[i]) != 0)
 			return (false);
 		i++;
 	}
 	i = 0;
 	while (i < input->nb_philo)
 	{
-		if (pthread_join(philo[1].thread, NULL) != 0)
+		if (pthread_join(philo[i].thread, NULL) != 0)
 			return (false);
 		i++;
 	}

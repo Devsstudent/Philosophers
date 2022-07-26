@@ -36,6 +36,9 @@ typedef struct	s_philo{
 	t_process	process;
 	int			time_last_eat;
 	pthread_t	thread;
+	t_input		*info;
+	t_bool			fork_right;
+	t_bool			fork_left;
 }
 
 #endif

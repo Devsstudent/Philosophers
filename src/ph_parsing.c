@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 #include "philo.h"
 
+//check int input + not too long and enough arg
 bool	ph_parse(int ac, char **av, t_input *input)
 {
 	int	i;
@@ -19,7 +20,6 @@ bool	ph_parse(int ac, char **av, t_input *input)
 	if (ac < 5 || ac > 6)
 		return (false);
 	i = 1;
-	//check int input + not too long
 	while (i < ac - 1)
 	{
 		j = 0;
