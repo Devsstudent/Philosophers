@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:30:40 by odessein          #+#    #+#             */
-/*   Updated: 2022/07/26 17:19:21 by odessein         ###   ########.fr       */
+/*   Updated: 2022/07/27 12:36:31 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -14,7 +14,9 @@
 int	main(int ac, char **av)
 {
 	t_input	input;
+	t_philo	*philo;
 
+	philo = NULL;
 	if (!ph_parse(ac, av, &input))
 	{
 		printf("Error\n");
@@ -22,6 +24,7 @@ int	main(int ac, char **av)
 	}
 	input.time_actual = 0;
 	ph_get_time(&input);
+	ph_create_thread(philo, &input);
 }
 
 /*

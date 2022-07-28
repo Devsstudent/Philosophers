@@ -9,14 +9,17 @@
 //Si le nombre de philo est impaire faire sleep tous les pair + le premier philo / tous les impaire mange 
 //Ensuite les paire mange puis l
 
-void	*routine(void *philo)
+void	*routine_philo(void *philo)
 {
-	t_philo	phil;
+	t_philo	*phil;
 
-	phil = *philo;
-	printf("philo nb : %i\n", phil.id);
+	phil = (t_philo *) philo;
+	printf("philo nb : %i\n", phil->id);
+	phil->creation_time = ph_get_time(&input);
+	printf("time %i\n", phil->creation_time);
 	//tant que time to eat du philo precedent et suivant n'est pas fini / think ou nothing if not started
 	//ensuite access au fork
+	return (NULL);
 }
 
 //Si les forks sont available ils les prends et eat le time to eat puis les liberes et sleep time to sleep 

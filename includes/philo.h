@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 19:23:07 by odessein          #+#    #+#             */
-/*   Updated: 2022/07/26 17:22:05 by odessein         ###   ########.fr       */
+/*   Updated: 2022/07/27 12:27:30 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -45,6 +45,7 @@ typedef struct	s_philo{
 	bool			fork_left;
 }				t_philo;
 
+void	*routine_philo(void *philo);
 bool	ph_create_thread(t_philo *philo, t_input *input);
 bool	ph_parse(int ac, char **av, t_input *input);
 void	ph_fill_input(int ac, char **av, t_input *input);

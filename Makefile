@@ -7,10 +7,10 @@ D_LST = obj/main.d $(addprefix obj/ph_, $(addsuffix .d,create_thread parsing rou
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	$(CC) $(FLAG) $(OBJ) -o $(NAME)
+	$(CC) $(FLAG) $(OBJ) -pthread -o $(NAME)
 
 obj/%.o: src/%.c | object
-	$(CC) $(FLAG) -I $(HEAD) -c $< -o $@
+	$(CC) $(FLAG) -I $(HEAD) -pthread -c $< -o $@
 
 object : 
 	@mkdir -p obj
