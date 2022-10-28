@@ -14,7 +14,6 @@
 static bool	ph_fill_info(int ac, char **av, t_input *input, t_info *info)
 {
 	input->number_of_philo = ph_atoi(av[1]);
-	printf("number :%i\n", input->number_of_philo);
 	input->time_to_die = ph_atoi(av[2]);
 	input->time_to_eat = ph_atoi(av[3]);
 	input->time_to_sleep = ph_atoi(av[4]);

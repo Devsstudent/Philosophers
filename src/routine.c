@@ -64,6 +64,8 @@ void	*routine(void *philoo)
 		return (false);
 	while (1)
 	{
+		if (get_actual_time() - philo->time_last_eat > 450)
+			printf("value : %li\n", get_actual_time() - philo->time_last_eat);
 		if (!take_fork(philo, info))
 			break ;
 		if (!eating(philo, info))

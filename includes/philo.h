@@ -58,6 +58,8 @@ typedef struct s_info {
 	pthread_mutex_t	mutex_write;
 	pthread_mutex_t	mutex_dead;
 	pthread_mutex_t	mutex_start;
+	pthread_mutex_t	mutex_process;
+	pthread_mutex_t	mutex_eat;
 	bool		die;
 	bool		start;
 	int			i_fail;

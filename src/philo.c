@@ -21,7 +21,7 @@ static bool	init_philo(t_info *info, t_input *input, t_philo *philo, int ind)
 	philo->input.time_to_die = input->time_to_die;
 	philo->input.number_of_philo = input->number_of_philo;
 	philo->input.start_time = input->start_time;
-	printf("id : %i", philo->id);
+//	printf("id : %i", philo->id);
 	if (pthread_mutex_init(&philo->mutex_fork, NULL) != 0)
 	{
 		write(2, "fail init mut\n", 14);
@@ -66,7 +66,7 @@ static bool	create_philo(t_info *info, t_input *input)
 	i = 0;
 	while (i < input->number_of_philo)
 	{
-		printf("%i %i\n", i, input->number_of_philo);
+	//	printf("%i %i\n", i, input->number_of_philo);
 		if (!init_philo(info, input, &info->philo[i], i))
 			return (false);
 		if (pthread_create(&info->philo[i].thread, NULL, routine, &info->philo[i])!= 0)
@@ -74,7 +74,7 @@ static bool	create_philo(t_info *info, t_input *input)
 			write(2, "fail create philo\n", 18);
 			return (false);
 		}
-		printf("%i %i", i, input->number_of_philo);
+	//	printf("%i %i", i, input->number_of_philo);
 		i++;
 	}
 	return (true);
