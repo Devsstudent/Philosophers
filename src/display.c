@@ -46,6 +46,9 @@ bool	display(t_philo *philo, t_info *info, t_disp state)
 			unlock_fork(philo, info);
 		return (false);
 	}
+	timestamp_v = timestamp(philo->input.start_time);
+	if (timestamp_v < 0)
+		return (false);
 	pthread_mutex_unlock(&info->mutex_dead);
 	printf("%ld %i %s\n", timestamp_v, philo->id, str);
 	pthread_mutex_unlock(&info->mutex_write);

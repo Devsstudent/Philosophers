@@ -18,7 +18,7 @@ bool	check_dead(t_info *info)
 	if (info->die)
 	{
 		pthread_mutex_unlock(&info->mutex_dead);
-		//usleep(10000);
+//		usleep(10000);
 		pthread_mutex_unlock(&info->mutex_write);
 		return (true);
 	}

@@ -13,14 +13,14 @@
 
 bool	eating(t_philo *philo, t_info *info)
 {
-	pthread_mutex_lock(&info->mutex_process);
-	philo->process = EATING;
-	pthread_mutex_unlock(&info->mutex_process);
 	pthread_mutex_lock(&info->mutex_eat);
 	philo->time_last_eat = get_actual_time();
 	pthread_mutex_unlock(&info->mutex_eat);
 	if (!display(philo, info, _EAT))
 		return (false);
+	pthread_mutex_lock(&info->mutex_process);
+	philo->process = EATING;
+	pthread_mutex_unlock(&info->mutex_process);
 	if (!sleep_loop(philo->input.time_to_eat, info, philo))
 		return (false);
 	unlock_fork(philo, info);

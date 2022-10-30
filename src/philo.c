@@ -21,14 +21,15 @@ static bool	init_philo(t_info *info, t_input *input, t_philo *philo, int ind)
 	philo->input.time_to_die = input->time_to_die;
 	philo->input.number_of_philo = input->number_of_philo;
 	philo->input.start_time = input->start_time;
-//	printf("id : %i", philo->id);
 	if (pthread_mutex_init(&philo->mutex_fork, NULL) != 0)
 	{
 		write(2, "fail init mut\n", 14);
 		return (false);
 	}
 	philo->time_last_eat = get_actual_time();
+	pthread_mutex_lock(&info->mutex_process);
 	philo->process = UNDEF;
+	pthread_mutex_unlock(&info->mutex_process);
 	return (true);
 }
 

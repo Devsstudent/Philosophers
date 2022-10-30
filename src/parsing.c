@@ -32,6 +32,11 @@ static bool	ph_fill_info(int ac, char **av, t_input *input, t_info *info)
 		write(2, "Error init mutex\n", 17);
 		return (false);
 	}
+	if (pthread_mutex_init(&info->mutex_process, NULL) != 0)
+	{
+		write(2, "Error init mutex\n", 17);
+		return (false);
+	}
 	if (pthread_mutex_init(&info->mutex_start, NULL) != 0)
 	{
 		write(2, "Error init mutex\n", 17);
