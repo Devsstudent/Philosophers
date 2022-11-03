@@ -22,6 +22,19 @@ int	main(int ac, char **av)
 		return (2);
 }
 
+//Semaphore pour le nombre de fourchette available
+//Call 2 time le semaphore avant de eat et le release 2 times quand il a fini
+//Decalage pareil que sur le philo de base
+//checker la mort reduire a 0 remettre a 1 (si mort reste blocker a reduire a 0 because not possible to go -1)
+
+//Semaphore pour la mort 
+
+//IDEA : Philo meurt -> sleep de 5000 Us reset a 1 (sem_dead) kill le ps
+
+	// Autre philo : get time before check_dead(semaphore)
+	//	block sur le sem_dead si temp ecoule en entre avant et apres > 5000 
+	//	Kill le process aussi
+
 //Pas de sleep (il doivent faire la queue)
 //2 boolean dans la structure pour les fourchettes des philo
 
