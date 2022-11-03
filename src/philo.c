@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:41:51 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/03 13:51:23 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/03 15:28:13 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -76,6 +76,9 @@ static bool	create_philo(t_info *info, t_mem_shared *mem_shared)
 
 bool	philo(t_mem_shared *mem_shared, t_info *info)
 {
+	int	i;
+
+	i = -1;
 	if (info->t_eat_max == 0)
 		return (true);
 	mem_shared->philo = malloc(sizeof(t_philo) * info->nb_philo);
@@ -94,6 +97,50 @@ bool	philo(t_mem_shared *mem_shared, t_info *info)
 		free(mem_shared->philo);
 		return (false);
 	}
+	while (++i < info->nb_philo)
+	{
+		if (pthread_mutex_destroy(&mem_shared->mutex_fork) != 0)
+		{
+			write(2, "Error destroying mutex\n", 23);
+			return (false);
+		}
+	}
 	free(mem_shared->philo);
 	return (true);
 }
+
+static bool	clean_end(t_mem_shared *mem_shared, t_info *info)
+{
+	if (pthread_mutex_destroy(&mem_shared->mutex_eat) != 0)
+	{
+		write(2, "Error destroying mutex\n", 23);
+		return (false);
+	}
+	if (pthread_mutex_destroy(&mem_shared->mutex_write) != 0)
+	{
+		write(2, "Error destroying mutex\n", 23);
+		return (false);
+	}
+	if (pthread_mutex_destroy(&mem_shared->mutex_process) != 0)
+	{
+		write(2, "Error destroying mutex\n", 23);
+		return (false);
+	}
+	if (pthread_mutex_destroy(&mem_shared->mutex_dead) != 0)
+	{
+		write(2, "Error destroying mutex\n", 23);
+		return (false);
+	}
+	if (pthread_mutex_destroy(&mem_shared->mutex_data) != 0)
+	{
+		write(2, "Error destroying mutex\n", 23);
+		return (false);
+	}
+	if (pthread_mutex_destroy(&mem_shared->mutex_start) != 0)
+	{
+		write(2, "Error destroying mutex\n", 23);
+		return (false);
+	}
+	return (true);
+}
+
