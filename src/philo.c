@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:41:51 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/03 15:28:13 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/03 15:52:04 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -74,43 +74,26 @@ static bool	create_philo(t_info *info, t_mem_shared *mem_shared)
 	return (true);
 }
 
-bool	philo(t_mem_shared *mem_shared, t_info *info)
+static bool	clean_philo_fork(t_mem_shared *mem_shared, t_info *info)
 {
 	int	i;
 
 	i = -1;
-	if (info->t_eat_max == 0)
-		return (true);
-	mem_shared->philo = malloc(sizeof(t_philo) * info->nb_philo);
-	if (!mem_shared->philo)
-		return (false);
-	if (!create_philo(info, mem_shared))
-	{
-		free(mem_shared->philo);
-		return (false);
-	}
-	while (!check_dead(mem_shared, info->nb_philo))
-	{
-	}
-	if (!wait_thread(mem_shared, info->nb_philo))
-	{
-		free(mem_shared->philo);
-		return (false);
-	}
 	while (++i < info->nb_philo)
 	{
-		if (pthread_mutex_destroy(&mem_shared->mutex_fork) != 0)
+		if (pthread_mutex_destroy(&mem_shared->philo[i].mutex_fork) != 0)
 		{
 			write(2, "Error destroying mutex\n", 23);
 			return (false);
 		}
 	}
-	free(mem_shared->philo);
 	return (true);
 }
 
-static bool	clean_end(t_mem_shared *mem_shared, t_info *info)
+bool	clean_end(t_mem_shared *mem_shared, t_info *info)
 {
+	if (!clean_philo_fork(mem_shared, info))
+		return (false);
 	if (pthread_mutex_destroy(&mem_shared->mutex_eat) != 0)
 	{
 		write(2, "Error destroying mutex\n", 23);
@@ -144,3 +127,28 @@ static bool	clean_end(t_mem_shared *mem_shared, t_info *info)
 	return (true);
 }
 
+bool	philo(t_mem_shared *mem_shared, t_info *info)
+{
+	if (info->t_eat_max == 0)
+		return (true);
+	mem_shared->philo = malloc(sizeof(t_philo) * info->nb_philo);
+	if (!mem_shared->philo)
+	{
+			clean_philo_fork(mem_shared, info);
+			return (false);
+	}
+	if (!create_philo(info, mem_shared))
+	{
+		return (false);
+	}
+	while (!check_dead(mem_shared, info->nb_philo))
+	{
+	}
+	if (!wait_thread(mem_shared, info->nb_philo))
+	{
+		free(mem_shared->philo);
+		return (false);
+	}
+	free(mem_shared->philo);
+	return (true);
+}
