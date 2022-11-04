@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 11:54:23 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/03 13:50:42 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/04 11:13:45 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -25,29 +25,7 @@ static bool	fill_info(int ac, char **av, t_info *info)
 	return (true);
 }
 
-static bool	fill_mem_shared(t_mem_shared *mem_shared)
-{
-	int				i;
-	pthread_mutex_t	**arr;
-
-	arr = malloc(sizeof(pthread_mutex_t *) * 6);
-	if (!arr)
-	{
-		write(2, "Malloc fail\n", 12);
-		return (false);
-	}
-	i = 0;
-	mem_shared->die = false;
-	if (!init_mutex(mem_shared, &i, arr))
-		return (false);
-	pthread_mutex_lock(&mem_shared->mutex_eat);
-	mem_shared->end_by_eat = 0;
-	pthread_mutex_unlock(&mem_shared->mutex_eat);
-	free(arr);
-	return (true);
-}
-
-bool	arguments_handle(int ac)
+static bool	arguments_handle(int ac)
 {
 	if (ac < 5 || ac > 6)
 	{
@@ -57,7 +35,7 @@ bool	arguments_handle(int ac)
 	return (true);
 }
 
-bool	check_content(int ac, char **av, int *j, int *k)
+static bool	check_content(int ac, char **av, int *j, int *k)
 {
 	int	i;
 
@@ -85,7 +63,7 @@ bool	check_content(int ac, char **av, int *j, int *k)
 	return (true);
 }
 
-bool	parse_input(int ac, char **av, t_info *info, t_mem_shared *mem_shared)
+bool	parse_input(int ac, char **av, t_info *info)
 {
 	int	j;
 	int	k;
@@ -95,8 +73,6 @@ bool	parse_input(int ac, char **av, t_info *info, t_mem_shared *mem_shared)
 	if (!check_content(ac, av, &j, &k))
 		return (false);
 	if (!fill_info(ac, av, info))
-		return (false);
-	if (!fill_mem_shared(mem_shared))
 		return (false);
 	return (true);
 }

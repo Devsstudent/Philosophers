@@ -2,17 +2,14 @@ NAME = philo
 FLAG = -Wall -Werror -Wextra -g -MMD
 HEAD = ./includes
 OBJ = $(addprefix obj/, $(addsuffix .o, \
-				display \
-				main \
-				parsing \
-				time \
 				action \
-				philo \
-				routine \
-				fork \
 				dead \
-				mutex_init \
-				utils))
+				display \
+				fork \
+				parsing \
+				utils \
+				time \
+				main))
 D_LST = $(OBJ:.o=.d)
 
 all : $(NAME)
