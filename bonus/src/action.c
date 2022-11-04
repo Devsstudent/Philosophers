@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 12:52:13 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/04 15:59:14 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/04 17:22:40 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -14,7 +14,7 @@
 bool	eating(t_philo *philo, t_sem_info *sem)
 {
 	//display_eating
-	write(2, "test", 4);
+//	write(2, "test", 4);
 	if (!display(philo, sem, _EAT))
 		return (false);
 	philo->time_last_eat = get_actual_time();

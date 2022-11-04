@@ -6,11 +6,12 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 02:11:59 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/04 16:57:21 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/04 17:21:46 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
 
+bool	close_sem(t_sem_info *sem);
 static void	cpy_info(t_info info, t_philo *philo, int index)
 {
 	philo->info.t_to_sleep = info.t_to_sleep;
@@ -28,8 +29,6 @@ static void	cpy_info(t_info info, t_philo *philo, int index)
 
 void	routine(t_sem_info *sem, t_philo *philo)
 {
-	//offset ?? shouldn't need it
-	//if (philo->id % 2 == 0)
 	while (1)
 	{
 		if (!take_fork(philo, sem))
@@ -71,8 +70,47 @@ bool	philo_a(t_info info, t_sem_info *sem, t_philo *philo)
 			return (false);
 		}
 	}
+	close_sem(sem);
 	return (true);
 	//loop de fork ?
+}
+
+bool	close_sem(t_sem_info *sem)
+{
+	sem_wait(sem->dead);
+	sem_wait(sem->write);
+	sem_wait(sem->bowl);
+	if (sem_close(sem->dead) != 0)
+	{
+		write(2, "Error closing sem\n", 18);
+		return (false);
+	}
+	if (sem_unlink("dead") != 0)
+	{
+		write(2, "Error unlinking sem\n", 21);
+		return (false);
+	}
+	if (sem_close(sem->write) != 0)
+	{
+		write(2, "Error closing sem\n", 18);
+		return (false);
+	}
+	if (sem_unlink("write") != 0)
+	{
+		write(2, "Error unlinking sem\n", 21);
+		return (false);
+	}
+	if (sem_close(sem->bowl) != 0)
+	{
+		write(2, "Error closing sem\n", 18);
+		return (false);
+	}
+	if (sem_unlink("bowl") != 0)
+	{
+		write(2, "Error unlinking sem\n", 21);
+		return (false);
+	}
+	return (true);
 }
 
 bool	semaphore(t_sem_info *sem, t_info info)
@@ -131,12 +169,19 @@ int	main(int ac, char **av)
 	if (!philo)
 	{
 		write(2, "Malloc failed\n", 14);
+		free(philo);
 		return (2);
 	}
 	if (!semaphore(&sem, info))
+	{
+		free(philo);
 		return (3);
+	}
 	if (!philo_a(info, &sem, philo))
+	{
+		free(philo);
 		return (4);
+	}
 }
 
 //int	main(int ac, char **av)
