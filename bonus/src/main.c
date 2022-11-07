@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 02:11:59 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/04 17:21:46 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/07 17:11:11 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -29,6 +29,8 @@ static void	cpy_info(t_info info, t_philo *philo, int index)
 
 void	routine(t_sem_info *sem, t_philo *philo)
 {
+	if (philo->id % 2 == 0)
+		usleep(philo->info.t_to_eat - 10);
 	while (1)
 	{
 		if (!take_fork(philo, sem))
@@ -115,22 +117,14 @@ bool	close_sem(t_sem_info *sem)
 
 bool	semaphore(t_sem_info *sem, t_info info)
 {
-	int	i;
-
-	sem->bowl = sem_open("bowl", O_CREAT, S_IRWXU, 1);
+	sem_unlink("bowl");
+	sem_unlink("dead");
+	sem_unlink("write");
+	sem->bowl = sem_open("bowl", O_CREAT, S_IRWXU, info.nb_philo);
 	if (sem->bowl == SEM_FAILED)
 	{
 		write(2, "Error opening semaphore\n", 24);
 		return (false);
-	}
-	i = -1;
-	while (++i < info.nb_philo)
-	{
-		if (sem_post(sem->bowl) != 0)
-		{
-			write(2, "Error sem post\n", 15);
-			return (false);
-		}
 	}
 	sem->dead = sem_open("dead", O_CREAT, S_IRWXU, 1);
 	if (sem->dead == SEM_FAILED)
@@ -138,20 +132,10 @@ bool	semaphore(t_sem_info *sem, t_info info)
 		write(2, "Error opening semaphore\n", 24);
 		return (false);
 	}
-	if (sem_post(sem->dead) != 0)
-	{
-		write(2, "Error sem post\n", 15);
-		return (false);
-	}
 	sem->write = sem_open("write", O_CREAT, S_IRWXU, 1);
 	if (sem->write == SEM_FAILED)
 	{
 		write(2, "Error opening semaphore\n", 24);
-		return (false);
-	}
-	if (sem_post(sem->write) != 0)
-	{
-		write(2, "Error sem post\n", 15);
 		return (false);
 	}
 	return (true);
