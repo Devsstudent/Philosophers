@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 02:13:54 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/08 15:45:40 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/08 17:44:32 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -87,7 +87,7 @@ bool		display(t_philo *philo, t_sem_info *sem, t_disp disp);
 void		print_str(t_disp action, long long timestamp, int id);
 
 //fork.c
-bool	unlock_fork(t_sem_info *sem);
+bool		unlock_fork(t_sem_info *sem);
 bool		take_fork(t_philo *philo, t_sem_info *sem);
 
 //parsing.c
@@ -103,6 +103,10 @@ bool		philo_a(t_info info, t_sem_info *sem, t_philo *philo);
 long int	timestamp(unsigned long start_time);
 long int	get_actual_time(void);
 bool		sleep_loop(unsigned long ms, t_philo *philo, t_sem_info *sem);
+
+//sem_utils.c
+bool		semaphore(t_sem_info *sem, t_info info);
+bool		close_sem(t_sem_info *sem);
 
 //utils.c
 void		ft_putnbr(long long n);

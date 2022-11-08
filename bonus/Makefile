@@ -11,6 +11,7 @@ OBJ = $(addprefix obj/, $(addsuffix .o, \
 				time \
 				setup_philo \
 				routine \
+				sem_utils \
 				main))
 D_LST = $(OBJ:.o=.d)
 

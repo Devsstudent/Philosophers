@@ -3,8 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */ /*                                                +#+#+#+#+#+   +#+           */ /*   Created: 2022/10/31 02:13:54 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/03 15:49:14 by odessein         ###   ########.fr       */
+/*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/08 18:38:29 by odessein          #+#    #+#             */
+/*   Updated: 2022/11/08 18:38:41 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -102,7 +104,7 @@ void		*routine(void *philoo);
 
 //philo.c
 bool		philo(t_mem_shared *mem_shared, t_info *info);
-bool	clean_end(t_mem_shared *mem_shared, t_info *info);
+bool		clean_end(t_mem_shared *mem_shared, t_info *info);
 
 //time.c
 long int	timestamp(unsigned long start_time);

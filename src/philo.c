@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:41:51 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/03 15:52:04 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/08 18:37:54 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -134,8 +134,8 @@ bool	philo(t_mem_shared *mem_shared, t_info *info)
 	mem_shared->philo = malloc(sizeof(t_philo) * info->nb_philo);
 	if (!mem_shared->philo)
 	{
-			clean_philo_fork(mem_shared, info);
-			return (false);
+		clean_philo_fork(mem_shared, info);
+		return (false);
 	}
 	if (!create_philo(info, mem_shared))
 	{

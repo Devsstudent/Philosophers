@@ -6,36 +6,10 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 15:13:26 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/08 15:35:49 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/08 17:41:57 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
-
-static bool	_close(sem_t *sem, char *name)
-{
-	if (sem_close(sem) != 0)
-	{
-		write(2, "Error closing sem\n", 18);
-		return (false);
-	}
-	if (sem_unlink(name) != 0)
-	{
-		write(2, "Error unlinking sem\n", 21);
-		return (false);
-	}
-	return (true);
-}
-
-bool	close_sem(t_sem_info *sem)
-{
-	if (!_close(sem->write, "write"))
-		return (false);
-	if (!_close(sem->max, "max"))
-		return (false);
-	if (!_close(sem->bowl, "bowl"))
-		return (false);
-	return (true);
-}
 
 static void	cpy_info(t_info info, t_philo *philo, int index)
 {
