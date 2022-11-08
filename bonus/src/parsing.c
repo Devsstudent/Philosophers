@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 11:54:23 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/04 11:13:45 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/08 15:16:52 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -40,7 +40,7 @@ static bool	check_content(int ac, char **av, int *j, int *k)
 	int	i;
 
 	i = 0;
-	while (++i < ac - 1)
+	while (++i < ac)
 	{
 		*j = 0;
 		while (av[i][*j] && av[i][*j] == '0')

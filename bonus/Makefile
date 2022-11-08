@@ -9,6 +9,8 @@ OBJ = $(addprefix obj/, $(addsuffix .o, \
 				parsing \
 				utils \
 				time \
+				setup_philo \
+				routine \
 				main))
 D_LST = $(OBJ:.o=.d)
 

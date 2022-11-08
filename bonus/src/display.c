@@ -5,9 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/04 14:24:39 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/07 17:04:51 by odessein         ###   ########.fr       */
-/*                                                                            */ /* ************************************************************************** */
+/*   Created: 2022/11/08 15:46:55 by odessein          #+#    #+#             */
+/*   Updated: 2022/11/08 15:46:56 by odessein         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "philo.h"
 
 static void	ft_putchar(char c)
@@ -16,7 +17,7 @@ static void	ft_putchar(char c)
 		return ;
 }
 
-static void	ft_putnbr(long long n)
+void	ft_putnbr(long long n)
 {
 	long long	temp;
 

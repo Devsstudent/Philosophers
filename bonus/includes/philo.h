@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 02:13:54 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/04 15:37:02 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/08 15:45:40 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -50,10 +50,9 @@ typedef enum e_process{
 
 typedef struct s_sem_info {
 	sem_t	*bowl;
-	sem_t	*dead;
 	sem_t	*write;
-}
-			t_sem_info;
+	sem_t	*max;
+}			t_sem_info;
 
 typedef struct s_info {
 	long int	t_to_sleep;
@@ -68,42 +67,45 @@ typedef struct s_philo{
 	int				pid;
 	int				id;
 	t_info			info;
-	//bool			created;
 	long int		eat_turn;
 	t_process		process;
 	long int		time_last_eat;
 }					t_philo;
 
 //action.c
-bool	eating(t_philo *philo, t_sem_info *sem);
-bool	sleeping(t_philo *philo, t_sem_info *sem);
-bool	thinking(t_philo *philo, t_sem_info *sem);
+bool		eating(t_philo *philo, t_sem_info *sem);
+bool		sleeping(t_philo *philo, t_sem_info *sem);
+bool		thinking(t_philo *philo, t_sem_info *sem);
 
 //dead.c
-bool	does_im_dead(t_philo *philo, t_sem_info *sem);
+bool		does_im_dead(t_philo *philo, t_sem_info *sem);
+bool		check_dead(t_sem_info *sem, t_info info);
+void		setup_dead(t_sem_info *sem);
 
 //display.c
-bool	display(t_philo *philo, t_sem_info *sem, t_disp disp);
-void	print_str(t_disp action, long long timestamp, int id);
+bool		display(t_philo *philo, t_sem_info *sem, t_disp disp);
+void		print_str(t_disp action, long long timestamp, int id);
 
 //fork.c
-bool	unlock_fork(t_philo *philo, t_sem_info *sem);
-bool	take_fork(t_philo *philo, t_sem_info *sem);
+bool	unlock_fork(t_sem_info *sem);
+bool		take_fork(t_philo *philo, t_sem_info *sem);
 
 //parsing.c
-bool	parse_input(int ac, char **av, t_info *info);
+bool		parse_input(int ac, char **av, t_info *info);
 
 //routine.c
 void		routine(t_sem_info *sem, t_philo *philo);
 
-//philo.c
+//setup_philo.c
+bool		philo_a(t_info info, t_sem_info *sem, t_philo *philo);
 
 //time.c
 long int	timestamp(unsigned long start_time);
 long int	get_actual_time(void);
-bool	sleep_loop(unsigned long ms, t_philo *philo, t_sem_info *sem);
+bool		sleep_loop(unsigned long ms, t_philo *philo, t_sem_info *sem);
 
 //utils.c
-int	ft_atoi(const char *nptr);
+void		ft_putnbr(long long n);
+int			ft_atoi(const char *nptr);
 
 #endif

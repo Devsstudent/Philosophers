@@ -6,15 +6,13 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:53:18 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/07 16:26:39 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/08 15:45:19 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
 
-bool	unlock_fork(t_philo *philo, t_sem_info *sem)
+bool	unlock_fork(t_sem_info *sem)
 {
-	(void) philo;
-
 	if (sem_post(sem->bowl) != 0)
 	{
 		write(2, "error post sem\n", 15);
