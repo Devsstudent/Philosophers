@@ -15,6 +15,9 @@ static void	loop_life(t_sem_info *sem, t_philo *philo)
 {
 	while (1)
 	{
+		if (philo->info.nb_philo == 1)
+			if (!sleep_loop(philo->info.t_to_die + 2, philo, sem))
+				break ;
 		if (!take_fork(philo, sem))
 			break ;
 		if (!eating(philo, sem))

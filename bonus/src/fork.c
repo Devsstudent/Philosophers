@@ -14,30 +14,18 @@
 bool	unlock_fork(t_sem_info *sem)
 {
 	if (sem_post(sem->bowl) != 0)
-	{
-		write(2, "error post sem\n", 15);
-		return (false);
-	}
+		return (error_msg("error post sem\n"));
 	if (sem_post(sem->bowl) != 0)
-	{
-		write(2, "error post sem\n", 15);
-		return (false);
-	}
+		return (error_msg("error post sem\n"));
 	return (true);
 }
 
 bool	take_fork(t_philo *philo, t_sem_info *sem)
 {
 	if (sem_wait(sem->bowl) != 0)
-	{
-		write(2, "error wait sem\n", 15);
-		return (false);
-	}
+		return (error_msg("error wait sem\n"));
 	if (sem_wait(sem->bowl) != 0)
-	{
-		write(2, "error wait sem\n", 15);
-		return (false);
-	}
+		return (error_msg("error wait sem\n"));
 	if (!display(philo, sem, _FORK))
 	{
 		unlock_fork(sem);

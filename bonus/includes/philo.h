@@ -53,7 +53,6 @@ typedef struct s_sem_info {
 	sem_t	*write;
 	sem_t	*max;
 	sem_t	*dead;
-	int		pid;
 }			t_sem_info;
 
 typedef struct s_info {
@@ -81,6 +80,7 @@ bool		sleeping(t_philo *philo, t_sem_info *sem);
 bool		thinking(t_philo *philo, t_sem_info *sem);
 
 //dead.c
+bool		does_im_dead_2(t_philo *philo, t_sem_info *sem);
 bool		does_im_dead(t_philo *philo, t_sem_info *sem);
 bool		check_dead(t_sem_info *sem, t_info info);
 void		setup_dead(t_sem_info *sem);
@@ -112,6 +112,7 @@ bool		semaphore(t_sem_info *sem, t_info info);
 bool		close_sem(t_sem_info *sem);
 
 //utils.c
+bool		error_msg(char *str);
 void		ft_putnbr(long long n);
 int			ft_atoi(const char *nptr);
 

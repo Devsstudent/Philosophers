@@ -66,7 +66,9 @@ void	print_str(t_disp action, long long timestamp, int id)
 bool	display(t_philo *philo, t_sem_info *sem, t_disp disp)
 {
 	long int	timestamp_v;
+	long long	time;
 
+	time = get_actual_time();
 	if (does_im_dead(philo, sem))
 		return (false);
 	if (sem_wait(sem->write) != 0)
@@ -74,6 +76,8 @@ bool	display(t_philo *philo, t_sem_info *sem, t_disp disp)
 		write(2, "Error wait sem\n", 15);
 		return (false);
 	}
+	if (get_actual_time() - time >= 50)
+		return (false);
 	timestamp_v = timestamp(philo->info.t_start);
 	print_str(disp, timestamp_v, philo->id);
 	if (sem_post(sem->write) != 0)
