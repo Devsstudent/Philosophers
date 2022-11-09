@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 17:41:19 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/08 17:43:44 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/09 16:49:59 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -16,8 +16,15 @@ bool	semaphore(t_sem_info *sem, t_info info)
 	sem_unlink("bowl");
 	sem_unlink("write");
 	sem_unlink("max");
+	sem_unlink("dead");
 	sem->bowl = sem_open("bowl", O_CREAT, S_IRWXU, info.nb_philo);
 	if (sem->bowl == SEM_FAILED)
+	{
+		write(2, "Error opening semaphore\n", 24);
+		return (false);
+	}
+	sem->dead = sem_open("dead", O_CREAT, S_IRWXU, 0);
+	if (sem->dead == SEM_FAILED)
 	{
 		write(2, "Error opening semaphore\n", 24);
 		return (false);

@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 12:52:13 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/08 17:52:19 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:39:07 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -17,7 +17,10 @@ bool	eating(t_philo *philo, t_sem_info *sem)
 		return (false);
 	philo->time_last_eat = get_actual_time();
 	if (!sleep_loop(philo->info.t_to_eat, philo, sem))
+	{
+		unlock_fork(sem);
 		return (false);
+	}
 	(philo->eat_turn)++;
 	if (!unlock_fork(sem))
 		return (false);

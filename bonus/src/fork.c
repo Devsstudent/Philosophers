@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:53:18 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/08 15:45:19 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/09 16:30:57 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -39,8 +39,14 @@ bool	take_fork(t_philo *philo, t_sem_info *sem)
 		return (false);
 	}
 	if (!display(philo, sem, _FORK))
+	{
+		unlock_fork(sem);
 		return (false);
+	}
 	if (!display(philo, sem, _FORK))
+	{
+		unlock_fork(sem);
 		return (false);
+	}
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 02:13:54 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/08 17:44:32 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/09 17:08:01 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -52,6 +52,8 @@ typedef struct s_sem_info {
 	sem_t	*bowl;
 	sem_t	*write;
 	sem_t	*max;
+	sem_t	*dead;
+	int		pid;
 }			t_sem_info;
 
 typedef struct s_info {
@@ -70,6 +72,7 @@ typedef struct s_philo{
 	long int		eat_turn;
 	t_process		process;
 	long int		time_last_eat;
+	pthread_t		thread;
 }					t_philo;
 
 //action.c

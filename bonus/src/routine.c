@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 15:13:10 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/08 17:40:35 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/09 16:56:26 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -49,5 +49,7 @@ void	routine(t_sem_info *sem, t_philo *philo)
 	if (sem_close(sem->bowl) != 0)
 		write(2, "Error closing sem\n", 18);
 	if (sem_close(sem->write) != 0)
+		write(2, "Error closing sem\n", 18);
+	if (sem_close(sem->dead) != 0)
 		write(2, "Error closing sem\n", 18);
 }
