@@ -12,6 +12,7 @@ OBJ = $(addprefix obj/, $(addsuffix .o, \
 				fork \
 				dead \
 				mutex_init \
+				thread_utils \
 				utils))
 D_LST = $(OBJ:.o=.d)
 

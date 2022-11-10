@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 18:38:29 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/08 18:38:41 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/10 14:54:32 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -104,7 +104,6 @@ void		*routine(void *philoo);
 
 //philo.c
 bool		philo(t_mem_shared *mem_shared, t_info *info);
-bool		clean_end(t_mem_shared *mem_shared, t_info *info);
 
 //time.c
 long int	timestamp(unsigned long start_time);
@@ -115,8 +114,14 @@ long int	get_actual_time(void);
 //utils.c
 int			ft_atoi(const char *nptr);
 void		print_str(t_disp action, long long timestamp, int id);
+bool		error_msg(char *str);
 
 //mutex_init.c
 bool		init_mutex(t_mem_shared *mem_shared, int *i, pthread_mutex_t **arr);
+
+//thread_utils.c
+bool		clean_end(t_mem_shared *mem_shared);
+bool		clean_philo_fork(t_mem_shared *mem_shared, t_info *info);
+bool		wait_thread(t_mem_shared *mem_shared, int nb_philo);
 
 #endif

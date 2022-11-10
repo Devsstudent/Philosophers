@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 18:37:39 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/08 18:37:41 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/10 13:54:52 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -32,10 +32,7 @@ static bool	fill_mem_shared(t_mem_shared *mem_shared)
 
 	arr = malloc(sizeof(pthread_mutex_t *) * 6);
 	if (!arr)
-	{
-		write(2, "Malloc fail\n", 12);
-		return (false);
-	}
+		return (error_msg("Malloc fail\n"));
 	i = 0;
 	mem_shared->die = false;
 	if (!init_mutex(mem_shared, &i, arr))
@@ -50,10 +47,7 @@ static bool	fill_mem_shared(t_mem_shared *mem_shared)
 bool	arguments_handle(int ac)
 {
 	if (ac < 5 || ac > 6)
-	{
-		write(2, "Invalid number of arguments\n", 28);
-		return (false);
-	}
+		return (error_msg("Invalid number of arguments\n"));
 	return (true);
 }
 
@@ -71,15 +65,9 @@ bool	check_content(int ac, char **av, int *j, int *k)
 		while (av[i][*j] != 0)
 		{
 			if (av[i][*j] < '0' || av[i][*j] > '9')
-			{
-				write(2, "Only accepting digit\n", 21);
-				return (false);
-			}
+				return (error_msg("Only accepting digit\n"));
 			if ((*j)++ - *k > 9)
-			{
-				write(2, "Too big\n", 8);
-				return (false);
-			}
+				return (error_msg("Too big\n"));
 		}
 	}
 	return (true);

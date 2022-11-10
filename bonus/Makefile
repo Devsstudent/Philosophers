@@ -1,7 +1,7 @@
 NAME = philo
 FLAG = -Wall -Werror -Wextra -g -MMD
 HEAD = ./includes
-OBJ = $(addprefix obj/, $(addsuffix .o, \
+OBJ = $(addprefix obj/, $(addsuffix _bonus.o, \
 				action \
 				dead \
 				display \

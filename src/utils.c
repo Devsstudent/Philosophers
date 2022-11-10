@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 21:28:31 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/03 12:43:12 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/10 13:49:26 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -53,4 +53,23 @@ int	ft_atoi(const char *nptr)
 	}
 	res *= neg_sign;
 	return ((int) res);
+}
+
+static int	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (*str)
+	{
+		str++;
+		i++;
+	}
+	return (i);
+}
+
+bool	error_msg(char *str)
+{
+	write(2, str, ft_strlen(str));
+	return (false);
 }

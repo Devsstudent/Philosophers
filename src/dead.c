@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 16:32:38 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/03 13:13:22 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/10 15:51:57 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -59,9 +59,9 @@ bool	does_im_dead(t_philo *philo, t_mem_shared *mem_shared)
 		usleep(500);
 		print_str(_DIE, timestamp(philo->info.t_start), philo->id);
 		pthread_mutex_unlock(&mem_shared->mutex_write);
-		return (mem_shared->die);
+		return (true);
 	}
 	pthread_mutex_unlock(&mem_shared->mutex_dead);
 	pthread_mutex_unlock(&mem_shared->mutex_eat);
-	return (mem_shared->die);
+	return (false);
 }
