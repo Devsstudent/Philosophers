@@ -1,5 +1,5 @@
 NAME = philo
-FLAG = -Wall -Werror -Wextra -g -MMD
+FLAG = -Wall -Werror -Wextra -g -MMD -fsanitize=thread
 HEAD = ./includes
 OBJ = $(addprefix obj/, $(addsuffix .o, \
 				display \

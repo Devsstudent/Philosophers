@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 12:39:10 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/10 15:52:08 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/11 16:31:56 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -96,11 +96,6 @@ void	*routine(void *philoo)
 	{
 	}
 	philo->info.t_start = get_actual_time();
-	philo->right = &philo->mutex_fork;
-	if (philo->id != philo->info.nb_philo)
-		philo->left = &mem_shared->philo[philo->id - 1 + 1].mutex_fork;
-	else
-		philo->left = &mem_shared->philo[0].mutex_fork;
 	philo->time_last_eat = philo->info.t_start;
 	if (!setup_offset(philo, mem_shared))
 		return (0);
