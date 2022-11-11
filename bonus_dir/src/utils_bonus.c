@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 15:08:16 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/04 15:08:21 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/11 10:13:02 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -44,9 +44,9 @@ int	ft_atoi(const char *nptr)
 	while (nptr[i] != '\0' && nptr[i] != ' ' && ft_isdigit(nptr[i]))
 	{
 		if ((long)(res * neg_sign) < -2147483648)
-			return (0);
+			return (-2);
 		else if ((long)(res * neg_sign) > 2147483647)
-			return (-1);
+			return (-3);
 		res *= 10;
 		res += nptr[i] - 48;
 		i++;

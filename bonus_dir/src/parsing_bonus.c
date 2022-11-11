@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 11:54:23 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/08 15:16:52 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/11 10:15:10 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -22,6 +22,9 @@ static bool	fill_info(int ac, char **av, t_info *info)
 		info->t_eat_max = ft_atoi(av[5]);
 	else
 		info->t_eat_max = -1;
+	if (info->nb_philo < -1 || info->t_to_die < -1 || info->t_to_eat < -1
+		|| info->t_to_sleep < -1 || info->t_eat_max < -1)
+		return (error_msg("Overflow"));
 	return (true);
 }
 

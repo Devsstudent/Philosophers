@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 21:28:31 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/10 13:49:26 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/11 10:17:30 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -44,9 +44,9 @@ int	ft_atoi(const char *nptr)
 	while (nptr[i] != '\0' && nptr[i] != ' ' && ft_isdigit(nptr[i]))
 	{
 		if ((long)(res * neg_sign) < -2147483648)
-			return (0);
+			return (-3);
 		else if ((long)(res * neg_sign) > 2147483647)
-			return (-1);
+			return (-2);
 		res *= 10;
 		res += nptr[i] - 48;
 		i++;
