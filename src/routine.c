@@ -1,12 +1,7 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   routine.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/03 12:39:10 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/11 16:31:56 by odessein         ###   ########.fr       */
+/*                                                                            */ /*                                                        :::      ::::::::   */ /*   routine.c                                          :+:      :+:    :+:   */ /*                                                    +:+ +:+         +:+     */
+/*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */ /*                                                +#+#+#+#+#+   +#+           */ /*   Created: 2022/10/31 16:20:37 by odessein          #+#    #+#             */
+/*   Updated: 2022/11/02 12:19:21 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -25,6 +20,7 @@ static bool	one_philo(t_mem_shared *mem_shared, t_philo *philo)
 	}
 	return (false);
 }
+
 
 static bool	starting_block(t_mem_shared *mem_shared, t_philo *philo)
 {
@@ -48,17 +44,36 @@ static bool	setup_offset(t_philo *philo, t_mem_shared *mem_shared)
 {
 	long	offset;
 
-	offset = philo->info.t_to_eat;
+	offset = philo->info.t_to_die - (philo->info.t_to_sleep + philo->info.t_to_eat - 9);
 	if (!display(philo, mem_shared, _THINK))
 		return (false);
-	if ((philo->id % 2) == 1 && offset > 0)
+	if ((philo->id % 2) == 0 && offset > 0)
 		if (!sleep_loop(offset, mem_shared, philo))
 			return (false);
 	return (true);
 }
 
-void	loop_life(t_philo *philo, t_mem_shared *mem_shared)
+//Starting block necessary ??
+void	*routine(void *philoo)
 {
+	t_philo			*philo;
+	t_mem_shared	*mem_shared;
+
+	philo = (t_philo *) philoo;
+	mem_shared = philo->mem_shared;
+	pthread_mutex_lock(&mem_shared->mutex_start);
+	philo->created = true;
+	pthread_mutex_unlock(&mem_shared->mutex_start);
+	//setup le starting time apres le starting block :)
+	while (!starting_block(mem_shared, philo));
+	pthread_mutex_lock(&mem_shared->mutex_start);
+	philo->info.t_start = get_actual_time();
+	pthread_mutex_unlock(&mem_shared->mutex_start);
+	pthread_mutex_lock(&mem_shared->mutex_eat);
+	philo->time_last_eat = philo->info.t_start;
+	pthread_mutex_unlock(&mem_shared->mutex_eat);
+	if (!setup_offset(philo, mem_shared))
+		return (0);
 	while (1)
 	{
 		if (one_philo(mem_shared, philo))
@@ -79,26 +94,5 @@ void	loop_life(t_philo *philo, t_mem_shared *mem_shared)
 			break ;
 		}
 	}
-}
-
-//Starting block necessary ??
-void	*routine(void *philoo)
-{
-	t_philo			*philo;
-	t_mem_shared	*mem_shared;
-
-	philo = (t_philo *) philoo;
-	mem_shared = philo->mem_shared;
-	pthread_mutex_lock(&mem_shared->mutex_start);
-	philo->created = true;
-	pthread_mutex_unlock(&mem_shared->mutex_start);
-	while (!starting_block(mem_shared, philo))
-	{
-	}
-	philo->info.t_start = get_actual_time();
-	philo->time_last_eat = philo->info.t_start;
-	if (!setup_offset(philo, mem_shared))
-		return (0);
-	loop_life(philo, mem_shared);
 	return (0);
 }
