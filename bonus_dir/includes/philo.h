@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 02:13:54 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/09 17:08:01 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/12 21:41:54 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -80,8 +80,8 @@ bool		sleeping(t_philo *philo, t_sem_info *sem);
 bool		thinking(t_philo *philo, t_sem_info *sem);
 
 //dead.c
-bool		does_im_dead_2(t_philo *philo, t_sem_info *sem);
-bool		does_im_dead(t_philo *philo, t_sem_info *sem);
+bool	post_write(t_sem_info *sem);
+bool		does_im_dead(t_philo *philo, t_sem_info *sem, bool fork);
 bool		check_dead(t_sem_info *sem, t_info info);
 void		setup_dead(t_sem_info *sem);
 
