@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:59:16 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/03 11:46:28 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/12 20:40:23 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -18,8 +18,8 @@ bool	eating(t_philo *philo, t_mem_shared *mem_shared)
 	pthread_mutex_unlock(&mem_shared->mutex_process);
 	if (!display(philo, mem_shared, _EAT))
 		return (false);
-	philo->eat_turn++;
 	pthread_mutex_lock(&mem_shared->mutex_eat);
+	philo->eat_turn++;
 	philo->time_last_eat = get_actual_time();
 	pthread_mutex_unlock(&mem_shared->mutex_eat);
 	if (!sleep_loop(philo->info.t_to_eat, mem_shared, philo))

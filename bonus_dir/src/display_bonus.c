@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   display.c                                          :+:      :+:    :+:   */
+/*   display_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 15:46:55 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/09 17:30:48 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/12 21:39:33 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -69,8 +69,16 @@ bool	display(t_philo *philo, t_sem_info *sem, t_disp disp)
 	long long	time;
 
 	time = get_actual_time();
-	if (does_im_dead(philo, sem))
-		return (false);
+	if (disp == _FORK)
+	{
+		if (does_im_dead(philo, sem, true))
+			return (false);
+	}
+	else
+	{
+		if (does_im_dead(philo, sem, false))
+			return (false);
+	}
 	if (sem_wait(sem->write) != 0)
 	{
 		write(2, "Error wait sem\n", 15);
