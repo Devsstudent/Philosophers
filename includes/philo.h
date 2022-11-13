@@ -121,6 +121,7 @@ bool		init_mutex(t_mem_shared *mem_shared, int *i, pthread_mutex_t **arr);
 
 //thread_utils.c
 bool		clean_end(t_mem_shared *mem_shared);
+void		increment_end_by_eat(t_mem_shared *mem_shared);
 bool		clean_philo_fork(t_mem_shared *mem_shared, t_info *info);
 bool		wait_thread(t_mem_shared *mem_shared, int nb_philo);
 

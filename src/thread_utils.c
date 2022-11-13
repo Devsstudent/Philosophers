@@ -53,3 +53,10 @@ bool	wait_thread(t_mem_shared *mem_shared, int nb_philo)
 	}
 	return (true);
 }
+
+void	increment_end_by_eat(t_mem_shared *mem_shared)
+{
+	pthread_mutex_lock(&mem_shared->mutex_eat);
+	mem_shared->end_by_eat += 1;
+	pthread_mutex_unlock(&mem_shared->mutex_eat);
+}

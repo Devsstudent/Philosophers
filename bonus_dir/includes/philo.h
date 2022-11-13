@@ -80,8 +80,8 @@ bool		sleeping(t_philo *philo, t_sem_info *sem);
 bool		thinking(t_philo *philo, t_sem_info *sem);
 
 //dead.c
-bool	post_write(t_sem_info *sem);
-bool		does_im_dead(t_philo *philo, t_sem_info *sem, bool fork);
+bool		post_write(t_sem_info *sem);
+bool		does_im_dead(t_philo *philo, t_sem_info *sem);
 bool		check_dead(t_sem_info *sem, t_info info);
 void		setup_dead(t_sem_info *sem);
 

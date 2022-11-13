@@ -21,7 +21,6 @@ static bool	one_philo(t_mem_shared *mem_shared, t_philo *philo)
 	return (false);
 }
 
-
 static bool	starting_block(t_mem_shared *mem_shared, t_philo *philo)
 {
 	int	i;
@@ -53,26 +52,33 @@ static bool	setup_offset(t_philo *philo, t_mem_shared *mem_shared)
 	return (true);
 }
 
-//Starting block necessary ??
+static inline bool	before_starting(void *philoo, t_philo **philo, t_mem_shared **mem_shared)
+{
+	*philo = (t_philo *) philoo;
+	*mem_shared = (*philo)->mem_shared;
+	pthread_mutex_lock(&(*mem_shared)->mutex_start);
+	(*philo)->created = true;
+	pthread_mutex_unlock(&(*mem_shared)->mutex_start);
+	while (!starting_block(*mem_shared, *philo))
+	{
+	}
+	pthread_mutex_lock(&(*mem_shared)->mutex_start);
+	(*philo)->info.t_start = get_actual_time();
+	pthread_mutex_unlock(&(*mem_shared)->mutex_start);
+	pthread_mutex_lock(&(*mem_shared)->mutex_eat);
+	(*philo)->time_last_eat = (*philo)->info.t_start;
+	pthread_mutex_unlock(&(*mem_shared)->mutex_eat);
+	if (!setup_offset(*philo, *mem_shared))
+		return (false);
+	return (true);
+}
+
 void	*routine(void *philoo)
 {
 	t_philo			*philo;
 	t_mem_shared	*mem_shared;
 
-	philo = (t_philo *) philoo;
-	mem_shared = philo->mem_shared;
-	pthread_mutex_lock(&mem_shared->mutex_start);
-	philo->created = true;
-	pthread_mutex_unlock(&mem_shared->mutex_start);
-	//setup le starting time apres le starting block :)
-	while (!starting_block(mem_shared, philo));
-	pthread_mutex_lock(&mem_shared->mutex_start);
-	philo->info.t_start = get_actual_time();
-	pthread_mutex_unlock(&mem_shared->mutex_start);
-	pthread_mutex_lock(&mem_shared->mutex_eat);
-	philo->time_last_eat = philo->info.t_start;
-	pthread_mutex_unlock(&mem_shared->mutex_eat);
-	if (!setup_offset(philo, mem_shared))
+	if (!before_starting(philoo, &philo, &mem_shared))
 		return (0);
 	while (1)
 	{
@@ -88,9 +94,7 @@ void	*routine(void *philoo)
 			break ;
 		if (philo->eat_turn == philo->info.t_eat_max)
 		{
-			pthread_mutex_lock(&mem_shared->mutex_eat);
-			mem_shared->end_by_eat += 1;
-			pthread_mutex_unlock(&mem_shared->mutex_eat);
+			increment_end_by_eat(mem_shared);
 			break ;
 		}
 	}

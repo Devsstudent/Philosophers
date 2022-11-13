@@ -29,7 +29,7 @@ bool	sleep_loop(unsigned long ms, t_philo *philo, t_sem_info *sem)
 	time = get_actual_time();
 	while (get_actual_time() - time < ms)
 	{
-		if (does_im_dead(philo, sem, false))
+		if (does_im_dead(philo, sem))
 			return (false);
 		usleep(500);
 	}

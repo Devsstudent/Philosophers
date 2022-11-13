@@ -69,16 +69,8 @@ bool	display(t_philo *philo, t_sem_info *sem, t_disp disp)
 	long long	time;
 
 	time = get_actual_time();
-	if (disp == _FORK)
-	{
-		if (does_im_dead(philo, sem, true))
-			return (false);
-	}
-	else
-	{
-		if (does_im_dead(philo, sem, false))
-			return (false);
-	}
+	if (does_im_dead(philo, sem))
+		return (false);
 	if (sem_wait(sem->write) != 0)
 	{
 		write(2, "Error wait sem\n", 15);

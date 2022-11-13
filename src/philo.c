@@ -21,21 +21,18 @@ static bool	init_philo(int ind, t_philo *philo, t_info *info)
 	philo->info.t_start = info->t_start;
 	philo->info.t_eat_max = info->t_eat_max;
 	philo->time_last_eat = info->t_start;
-//	pthread_mutex_lock(&mem_shared->mutex_start);
 	philo->created = false;
-	//pthread_mutex_unlock(&mem_shared->mutex_start);
 	if (pthread_mutex_init(&philo->mutex_fork, NULL) != 0)
 		return (error_msg("fail init mutex\n"));
-	//pthread_mutex_lock(&mem_shared->mutex_process);
 	philo->right = &philo->mutex_fork;
 	philo->process = UNDEF;
-//	pthread_mutex_unlock(&mem_shared->mutex_process);
 	return (true);
 }
 
 static	bool	init_each_philo(t_info *info, t_mem_shared *mem_shared)
 {
-	int	i;
+	int		i;
+	t_philo	*philo;
 
 	i = -1;
 	while (++i < info->nb_philo)
@@ -47,10 +44,12 @@ static	bool	init_each_philo(t_info *info, t_mem_shared *mem_shared)
 	i = -1;
 	while (++i < info->nb_philo)
 	{
-		if (mem_shared->philo[i].id != mem_shared->philo[i].info.nb_philo)
-			mem_shared->philo[i].left = &mem_shared->philo[mem_shared->philo[i].id - 1 + 1].mutex_fork;
+		philo = &mem_shared->philo[i];
+		if (philo->id != philo->info.nb_philo)
+			philo->left = &mem_shared->philo[mem_shared
+				->philo[i].id].mutex_fork;
 		else
-			mem_shared->philo[i].left = &mem_shared->philo[0].mutex_fork;
+			philo->left = &mem_shared->philo[0].mutex_fork;
 	}
 	return (true);
 }
