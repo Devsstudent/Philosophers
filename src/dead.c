@@ -16,6 +16,13 @@ bool	check_dead(t_mem_shared *mem_shared, int nb_philo)
 	int	i;
 
 	i = -1;
+	pthread_mutex_lock(&mem_shared->mutex_eat);
+	if (mem_shared->end_by_eat == nb_philo)
+	{
+		pthread_mutex_unlock(&mem_shared->mutex_eat);
+		return (true);
+	}
+	pthread_mutex_unlock(&mem_shared->mutex_eat);
 	pthread_mutex_lock(&mem_shared->mutex_dead);
 	if (mem_shared->die)
 	{
@@ -36,18 +43,11 @@ bool	check_dead(t_mem_shared *mem_shared, int nb_philo)
 			//usleep(500);
 			print_str(_DIE, timestamp(mem_shared->philo[i].info.t_start), mem_shared->philo[i].id);
 			pthread_mutex_unlock(&mem_shared->mutex_write);
+			unlock_fork(&mem_shared->philo[i], mem_shared);
 			return (true);
 		}
 		pthread_mutex_unlock(&mem_shared->mutex_eat);
 	}
-	pthread_mutex_unlock(&mem_shared->mutex_eat);
-	pthread_mutex_lock(&mem_shared->mutex_eat);
-	if (mem_shared->end_by_eat == nb_philo)
-	{
-		pthread_mutex_unlock(&mem_shared->mutex_eat);
-		return (true);
-	}
-	pthread_mutex_unlock(&mem_shared->mutex_eat);
 	return (false);
 }
 
