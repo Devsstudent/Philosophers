@@ -72,7 +72,7 @@ void	*routine_dead(void *content)
 	t_info_thread *info;
 
 	info = (t_info_thread *) content;
-	if (sem_wait(info->sem_each_philo) != 0)
+	if (sem_wait(*info->sem_each_philo) != 0)
 	{
 		write(2, "Error sem_waiting\n", 17);
 		return (0);
@@ -102,7 +102,8 @@ void	*routine_kill(void *content)
 	t_info_thread *info;
 
 	info = (t_info_thread *) content;
-	if (sem_wait(info->sem_each_philo))
+	printf("routine %p\n", *info->sem_each_philo);
+	if (sem_wait(*info->sem_each_philo))
 	{
 		write(2, "Error sem_waiting\n", 17);
 		return (0);
@@ -112,40 +113,48 @@ void	*routine_kill(void *content)
 	return (0);
 }
 
+static inline bool fill_info_thread(t_info_thread *info, char *name)
+{
+//	sem_t	**store;
+
+	info->sem_each_philo =  malloc(sizeof(sem_t *));
+	*info->sem_each_philo = sem_open(name, O_CREAT, S_IRWXU, 0);
+	free(name);
+	if (*info->sem_each_philo == SEM_FAILED)
+		return (error_msg("fail opening semaphore sem_each_philo"));
+	printf("init :%p\n", *info->sem_each_philo);
+	return (true);
+}
+
 bool	create_philo(t_info info, t_sem_info *sem, t_philo *philo)
 {
 	int				i;
 	pthread_t		thread_fork;
 	pthread_t		thread_dead;
 	pthread_t		thread_kill;
-	t_info_thread	*info_thread;
-	char			*name;
+	t_info_thread	info_thread;
 
 	i = -1;
-//	memset(&info_thread, 0 ,sizeof(info_thread));
+	memset(&info_thread, 0 ,sizeof(info_thread));
 	while (++i < info.nb_philo)
 	{
-		info_thread = malloc(sizeof(t_info_thread));
 		cpy_info(info, &philo[i], i);
-		info_thread->philo = &philo[i];
-		info_thread->sem = sem;
-		name = ft_itoa(philo->id);
-		info_thread->sem_each_philo = sem_open(name, O_CREAT, S_IRWXU, 0);
-		free(name);
-		if (info_thread->sem_each_philo != 0)
-			return (error_msg("fail opening semaphore"));
+		info_thread.philo = &philo[i];
+		info_thread.sem = sem;
+		if (!fill_info_thread(&info_thread, ft_itoa(philo[i].id)))
+			return (false);
 		philo[i].pid = fork();
 		if (philo[i].pid == 0)
 		{
-			pthread_create(&thread_fork, NULL, routine_fork, info_thread);
+			pthread_create(&thread_fork, NULL, routine_fork, &info_thread);
 			routine(sem, &philo[i]);
 			return (false);
 		}
 		else
 		{
-			info_thread->thread_fork = thread_fork;
-			pthread_create(&thread_dead, NULL, routine_dead, info_thread);
-			pthread_create(&thread_kill, NULL, routine_kill, info_thread);
+			info_thread.thread_fork = thread_fork;
+			pthread_create(&thread_dead, NULL, routine_dead, &info_thread);
+			pthread_create(&thread_kill, NULL, routine_kill, &info_thread);
 			continue ;
 		}
 	}

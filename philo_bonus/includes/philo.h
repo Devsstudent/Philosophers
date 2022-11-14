@@ -76,7 +76,7 @@ typedef struct s_philo{
 typedef struct s_info_thread{
 	t_philo		*philo;
 	t_sem_info	*sem;
-	sem_t		*sem_each_philo;
+	sem_t		**sem_each_philo;
 	pthread_t	thread_fork;
 }				t_info_thread;
 
