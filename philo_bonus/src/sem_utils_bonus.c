@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sem_utils.c                                        :+:      :+:    :+:   */
+/*   sem_utils_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 17:41:19 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/09 16:49:59 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/14 15:18:35 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -27,6 +27,9 @@ bool	semaphore(t_sem_info *sem, t_info info)
 		return (error_msg("Error opening semaphore\n"));
 	sem->max = sem_open("max", O_CREAT, S_IRWXU, 0);
 	if (sem->max == SEM_FAILED)
+		return (error_msg("Error opening semaphore\n"));
+	sem->eat = sem_open("max", O_CREAT, S_IRWXU, 1);
+	if (sem->eat == SEM_FAILED)
 		return (error_msg("Error opening semaphore\n"));
 	sem->dead = sem_open("dead", O_CREAT, S_IRWXU, 0);
 	if (sem->dead == SEM_FAILED)

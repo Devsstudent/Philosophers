@@ -1,14 +1,12 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
+/*                                                                            */ /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 02:13:54 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/12 21:41:54 by odessein         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/*   Updated: 2022/11/14 14:02:25 by odessein         ###   ########.fr       */
+/*                                                                            */ /* ************************************************************************** */
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -53,6 +51,7 @@ typedef struct s_sem_info {
 	sem_t	*write;
 	sem_t	*max;
 	sem_t	*dead;
+	sem_t	*eat;
 }			t_sem_info;
 
 typedef struct s_info {
@@ -69,10 +68,17 @@ typedef struct s_philo{
 	int				id;
 	t_info			info;
 	long int		eat_turn;
-	t_process		process;
 	long int		time_last_eat;
 	pthread_t		thread;
+	bool			die;
 }					t_philo;
+
+typedef struct s_info_thread{
+	t_philo		*philo;
+	t_sem_info	*sem;
+	sem_t		*sem_each_philo;
+	pthread_t	thread_fork;
+}				t_info_thread;
 
 //action.c
 bool		eating(t_philo *philo, t_sem_info *sem);
@@ -115,5 +121,8 @@ bool		close_sem(t_sem_info *sem);
 bool		error_msg(char *str);
 void		ft_putnbr(long long n);
 int			ft_atoi(const char *nptr);
+
+//ft_itoa.c
+char	*ft_itoa(int n);
 
 #endif

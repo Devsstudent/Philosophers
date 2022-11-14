@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routine.c                                          :+:      :+:    :+:   */
+/*   routine_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 15:13:10 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/09 16:56:26 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/14 15:16:30 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -34,10 +34,12 @@ static void	loop_life(t_sem_info *sem, t_philo *philo)
 		if (!thinking(philo, sem))
 			break ;
 	}
+	//join_fork
 }
 
 void	routine(t_sem_info *sem, t_philo *philo)
 {
+	//write(2, "test", 4);
 	if (philo->eat_turn >= philo->info.t_eat_max && philo->info.t_eat_max > -1)
 	{
 		if (sem_post(sem->max) != 0)

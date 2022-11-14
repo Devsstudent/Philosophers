@@ -1,4 +1,4 @@
-NAME = ../philo_bonus
+NAME = philo
 FLAG = -Wall -Werror -Wextra -g -MMD
 HEAD = ./includes
 OBJ = $(addprefix obj/, $(addsuffix _bonus.o, \
@@ -12,6 +12,7 @@ OBJ = $(addprefix obj/, $(addsuffix _bonus.o, \
 				setup_philo \
 				routine \
 				sem_utils \
+				ft_itoa \
 				main))
 D_LST = $(OBJ:.o=.d)
 

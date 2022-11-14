@@ -1,7 +1,12 @@
 /* ************************************************************************** */
-/*                                                                            */ /*                                                        :::      ::::::::   */ /*   routine.c                                          :+:      :+:    :+:   */ /*                                                    +:+ +:+         +:+     */
-/*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */ /*                                                +#+#+#+#+#+   +#+           */ /*   Created: 2022/10/31 16:20:37 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/02 12:19:21 by odessein         ###   ########.fr       */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/14 08:41:16 by odessein          #+#    #+#             */
+/*   Updated: 2022/11/14 08:45:20 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -43,7 +48,8 @@ static bool	setup_offset(t_philo *philo, t_mem_shared *mem_shared)
 {
 	long	offset;
 
-	offset = philo->info.t_to_die - (philo->info.t_to_sleep + philo->info.t_to_eat - 9);
+	offset = philo->info.t_to_die
+		- (philo->info.t_to_sleep + philo->info.t_to_eat - 9);
 	if (!display(philo, mem_shared, _THINK))
 		return (false);
 	if ((philo->id % 2) == 0 && offset > 0)
@@ -52,7 +58,8 @@ static bool	setup_offset(t_philo *philo, t_mem_shared *mem_shared)
 	return (true);
 }
 
-static inline bool	before_starting(void *philoo, t_philo **philo, t_mem_shared **mem_shared)
+static inline bool	before_starting(void *philoo, t_philo **philo,
+		t_mem_shared **mem_shared)
 {
 	*philo = (t_philo *) philoo;
 	*mem_shared = (*philo)->mem_shared;

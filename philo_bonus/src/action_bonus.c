@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   action.c                                           :+:      :+:    :+:   */
+/*   action_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 12:52:13 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/09 17:39:07 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/14 15:19:07 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -15,7 +15,9 @@ bool	eating(t_philo *philo, t_sem_info *sem)
 {
 	if (!display(philo, sem, _EAT))
 		return (false);
+	sem_wait(sem->eat);
 	philo->time_last_eat = get_actual_time();
+	sem_post(sem->eat);
 	if (!sleep_loop(philo->info.t_to_eat, philo, sem))
 	{
 		unlock_fork(sem);
