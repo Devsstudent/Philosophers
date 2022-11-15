@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 15:46:55 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/12 21:39:33 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/15 15:39:03 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -69,7 +69,7 @@ bool	display(t_philo *philo, t_sem_info *sem, t_disp disp)
 	long long	time;
 
 	time = get_actual_time();
-	if (does_im_dead(philo, sem))
+	if (does_im_dead(philo))
 		return (false);
 	if (sem_wait(sem->write) != 0)
 	{

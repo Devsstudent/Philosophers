@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 15:08:16 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/11 10:13:02 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/15 15:55:21 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -55,7 +55,7 @@ int	ft_atoi(const char *nptr)
 	return ((int) res);
 }
 
-static int	ft_strlen(char *str)
+int	ft_strlen(const char *str)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 13:04:41 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/14 14:14:59 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/15 16:30:47 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -40,23 +40,23 @@ bool	post_write(t_sem_info *sem)
 	return (true);
 }
 
-bool	does_im_dead(t_philo *philo, t_sem_info *sem)
+bool	does_im_dead(t_philo *philo)
 {
-	if (sem_wait(sem->dead))
+	if (sem_wait(philo->sem_dead))
 	{
 		write(2, "error wait sem", 15);
 		return (true);
 	}
 	if (philo->die)
 	{
-		if (sem_post(sem->dead) != 0)
+		if (sem_post(philo->sem_dead) != 0)
 		{
 			write(2, "error post sem", 15);
 			return (true);
 		}
 		return (true);
 	}
-	if (sem_post(sem->dead) != 0)
+	if (sem_post(philo->sem_dead) != 0)
 	{
 		write(2, "error post sem", 15);
 		return (true);

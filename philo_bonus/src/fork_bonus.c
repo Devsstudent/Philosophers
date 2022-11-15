@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:53:18 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/14 14:08:24 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/15 16:19:15 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -22,7 +22,7 @@ bool	unlock_fork(t_sem_info *sem)
 
 bool	take_fork(t_philo *philo, t_sem_info *sem)
 {
-	if (does_im_dead(philo, sem))
+	if (does_im_dead(philo))
 		return (false);
 	if (sem_wait(sem->bowl) != 0)
 		return (error_msg("error wait sem\n"));

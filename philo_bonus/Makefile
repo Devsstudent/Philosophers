@@ -13,6 +13,7 @@ OBJ = $(addprefix obj/, $(addsuffix _bonus.o, \
 				routine \
 				sem_utils \
 				ft_itoa \
+				thread_routine \
 				main))
 D_LST = $(OBJ:.o=.d)
 

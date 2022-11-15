@@ -22,6 +22,7 @@
 # include <sys/types.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <string.h>
 
 # define EAT "is eating\n"
 # define SLEEP "is sleeping\n"
@@ -50,8 +51,7 @@ typedef struct s_sem_info {
 	sem_t	*bowl;
 	sem_t	*write;
 	sem_t	*max;
-	sem_t	*dead;
-	sem_t	*eat;
+	sem_t	*end;
 }			t_sem_info;
 
 typedef struct s_info {
@@ -69,14 +69,18 @@ typedef struct s_philo{
 	t_info			info;
 	long int		eat_turn;
 	long int		time_last_eat;
-	pthread_t		thread;
 	bool			die;
+	pthread_t		thread_fork;
+	pthread_t		thread_dead;
+	pthread_t		thread_kill;
+	sem_t			*sem_eat;
+	sem_t			*sem_activ;
+	sem_t			*sem_dead;
 }					t_philo;
 
 typedef struct s_info_thread{
 	t_philo		*philo;
 	t_sem_info	*sem;
-	sem_t		**sem_each_philo;
 	pthread_t	thread_fork;
 }				t_info_thread;
 
@@ -87,7 +91,7 @@ bool		thinking(t_philo *philo, t_sem_info *sem);
 
 //dead.c
 bool		post_write(t_sem_info *sem);
-bool		does_im_dead(t_philo *philo, t_sem_info *sem);
+bool		does_im_dead(t_philo *philo);
 bool		check_dead(t_sem_info *sem, t_info info);
 void		setup_dead(t_sem_info *sem);
 
@@ -111,7 +115,7 @@ bool		philo_a(t_info info, t_sem_info *sem, t_philo *philo);
 //time.c
 long int	timestamp(unsigned long start_time);
 long int	get_actual_time(void);
-bool		sleep_loop(unsigned long ms, t_philo *philo, t_sem_info *sem);
+bool		sleep_loop(unsigned long ms, t_philo *philo);
 
 //sem_utils.c
 bool		semaphore(t_sem_info *sem, t_info info);
@@ -121,8 +125,16 @@ bool		close_sem(t_sem_info *sem);
 bool		error_msg(char *str);
 void		ft_putnbr(long long n);
 int			ft_atoi(const char *nptr);
+int			ft_strlen(const char *str);
 
 //ft_itoa.c
-char	*ft_itoa(int n);
+char		*ft_itoa(int n);
+char		*ft_strjoin(char const *s1, char const *s2);
+
+//thread_routine.c
+bool		init_sem_in_philo(t_philo *philo);
+void		*routine_fork(void *content);
+void		*routine_dead(void *content);
+void		*routine_kill(void *content);
 
 #endif
