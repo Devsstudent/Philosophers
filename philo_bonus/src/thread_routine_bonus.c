@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 14:27:45 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/17 22:34:04 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/17 22:40:41 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -40,7 +40,9 @@ void	*routine_fork(void *content)
 	info = (t_info_thread *) content;
 	while (42)
 	{
-		if (info->sem->end->__align >= 1 && info->sem->end->__align < 200)
+		//if (info->sem->end->__align >= 1 && info->sem->end->__align < 200)
+		//	return (0);
+		if (does_im_dead(info->philo))
 			return (0);
 		if (sem_wait(info->philo->sem_eat) > 0)
 		{
@@ -83,6 +85,7 @@ void	*routine_fork(void *content)
 		}
 		else if (value == info->philo->info.nb_philo)
 		{
+			//MARCHE PAS
 			if (sem_post(info->sem->end) != 0)
 			{
 				write(2, "Error sem_posting\n", 17);
