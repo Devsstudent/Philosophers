@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 14:27:45 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/17 19:08:35 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/17 19:04:55 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -40,8 +40,11 @@ void	*routine_fork(void *content)
 	//printf("id :%i\n", info->philo->id);
 	while (42)
 	{
-		if (info->sem->end->__align  == 1)
+		if (info->sem->end->__align > 0)
+		{
+			printf("%li\n", info->sem->end->__align);
 			return (0);
+		}
 //		printf("%i", get_actual_time() - info->philo->time_last_eat >= info->philo->info.t_to_die);
 		if (sem_wait(info->philo->sem_eat) > 0)
 		{

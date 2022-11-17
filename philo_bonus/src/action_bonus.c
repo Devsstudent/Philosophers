@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 12:52:13 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/16 22:03:29 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/17 17:16:08 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -16,10 +16,10 @@ bool	eating(t_philo *philo, t_sem_info *sem)
 	if (!display(philo, sem, _EAT))
 		return (false);
 	if (sem_wait(philo->sem_eat) != 0)
-	{
-		philo->time_last_eat = get_actual_time();
-		sem_post(philo->sem_eat);
-	}
+		return (error_msg("error:fail on waiting sem"));
+	philo->time_last_eat = get_actual_time();
+	if (sem_post(philo->sem_eat) != 0)
+		return (error_msg("error:fail on posting sem"));
 	if (!sleep_loop(philo->info.t_to_eat, philo))
 	{
 		unlock_fork(sem);
@@ -48,7 +48,7 @@ bool	thinking(t_philo *philo, t_sem_info *sem)
 		return (false);
 	//Value non arbitraire
 	think = philo->info.t_to_die - philo->info.t_to_sleep
-		- philo->info.t_to_eat - 17;
+		- philo->info.t_to_eat - 10;
 	if (think > 0)
 		if (!sleep_loop(philo->info.t_to_sleep, philo))
 			return (false);

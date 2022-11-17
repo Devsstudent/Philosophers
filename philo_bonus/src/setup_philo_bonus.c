@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 15:13:26 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/16 22:02:09 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/17 19:08:56 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -37,7 +37,7 @@ static bool	create_philo(t_info info, t_sem_info *sem, t_philo *philo, t_info_th
 	i = -1;
 	while (++i < info.nb_philo)
 	{
-		write(2, "AH\n", 3);
+		//write(2, "AH\n", 3);
 		philo[i].pid = fork();
 		if (philo[i].pid == 0)
 		{
@@ -46,6 +46,15 @@ static bool	create_philo(t_info info, t_sem_info *sem, t_philo *philo, t_info_th
 			routine(sem, &philo[i]);
 			pthread_join(philo[i].thread_fork, NULL);
 			pthread_join(philo[i].thread_dead, NULL);
+			if (sem_close(sem->max) != 0)
+				write(2, "Error closing sem max\n", 22);
+			if (sem_close(sem->write) != 0)
+				write(2, "Error closing sem write\n", 24);
+			if (sem_close(sem->end) != 0)
+				write(2, "Error closing sem end\n", 22);
+			if (sem_close(philo[i].sem_eat) != 0)
+				write(2, "Error closing sem eat\n", 22);
+			printf("id :%i\n", philo[i].id);
 			return (false);
 		}
 		else
