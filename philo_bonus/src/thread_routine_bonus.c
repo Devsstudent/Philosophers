@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 14:27:45 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/17 19:08:35 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/17 22:34:04 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -34,29 +34,46 @@ bool	init_sem_in_philo(t_philo *philo)
 void	*routine_fork(void *content)
 {
 	t_info_thread	*info;
-	long	value;
+	long			value;
+	long			time_grab_write_sem;
 
 	info = (t_info_thread *) content;
-	//printf("id :%i\n", info->philo->id);
 	while (42)
 	{
-		if (info->sem->end->__align  == 1)
+		if (info->sem->end->__align >= 1 && info->sem->end->__align < 200)
 			return (0);
-//		printf("%i", get_actual_time() - info->philo->time_last_eat >= info->philo->info.t_to_die);
 		if (sem_wait(info->philo->sem_eat) > 0)
 		{
 			write(2, "Error sem_waiting\n", 17);
 			return (0);
 		}
 		value = info->sem->max->__align;
-		if (get_actual_time() - info->philo->time_last_eat >= info->philo->info.t_to_die)
+		if (get_actual_time() - info->philo->time_last_eat
+			>= info->philo->info.t_to_die)
 		{
 			if (sem_wait(info->sem->write) != 0)
 			{
 				write(2, "Error sem_waiting\n", 17);
 				return (0);
 			}
-			print_str(_DIE, timestamp(info->philo->info.t_start), info->philo->id);
+			if (does_im_dead(info->philo))
+			{
+				if (sem_post(info->philo->sem_eat) != 0)
+					write(2, "Error sem_posting\n", 17);
+				if (sem_post(info->sem->end) != 0)
+				{
+					write(2, "Error sem_posting\n", 17);
+					return (0);
+				}
+				if (sem_post(info->sem->write) != 0)
+				{
+					write(2, "Error sem_posting\n", 17);
+					return (0);
+				}
+				return (0);
+			}
+			print_str(_DIE, timestamp(info->philo->info.t_start),
+				info->philo->id);
 			if (sem_post(info->sem->end) != 0)
 			{
 				write(2, "Error sem_posting\n", 17);
@@ -78,10 +95,8 @@ void	*routine_fork(void *content)
 		usleep(500);
 	}
 	sem_post(info->philo->sem_eat);
-	long	time_grab_write_sem;
 	time_grab_write_sem = info->philo->info.nb_philo * 500;
 	usleep(time_grab_write_sem);
-//	printf("finish\n");
 	if (sem_post(info->sem->write) != 0)
 	{
 		write(2, "Error sem_posting\n", 17);
@@ -92,7 +107,7 @@ void	*routine_fork(void *content)
 
 void	*routine_dead(void *content)
 {
-	t_info_thread *info;
+	t_info_thread	*info;
 
 	info = (t_info_thread *) content;
 	if (sem_wait(info->sem->end) != 0)
@@ -100,14 +115,12 @@ void	*routine_dead(void *content)
 		write(2, "Error sem_waiting\n", 17);
 		return (0);
 	}
-	//dead ou write ?? Problem les philo peuvent peut etre display
 	if (sem_wait(info->philo->sem_dead) != 0)
 	{
 		write(2, "Error sem_waiting\n", 17);
 		return (0);
 	}
 	info->philo->die = true;
-//	printf("dead set\n");
 	if (sem_post(info->philo->sem_dead) != 0)
 	{
 		write(2, "Error sem_posting\n", 17);
@@ -118,9 +131,5 @@ void	*routine_dead(void *content)
 		write(2, "Error sem_posting\n", 17);
 		return (0);
 	}
-	//sem_close(info->sem->end);
-	//sem_close(info->sem->write);
-	//sem_close(info->sem->bowl);
-	//sem_close(info->sem->max);
 	return (0);
 }

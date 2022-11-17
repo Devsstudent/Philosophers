@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 17:41:19 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/16 21:38:06 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/17 22:07:44 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -22,7 +22,6 @@ static void	sem_start_unlink(void)
 	sem_unlink("max");
 	sem_unlink("end");
 	sem_unlink("catch_fork");
-	//loop delete 200 philo
 	i = 0;
 	while (i < 200)
 	{

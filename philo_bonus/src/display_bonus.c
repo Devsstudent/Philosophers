@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 15:46:55 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/17 17:47:33 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/17 22:18:49 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -66,9 +66,7 @@ void	print_str(t_disp action, long long timestamp, int id)
 bool	display(t_philo *philo, t_sem_info *sem, t_disp disp)
 {
 	long int	timestamp_v;
-//	long long	time;
 
-	//time = get_actual_time();
 	timestamp_v = timestamp(philo->info.t_start);
 	if (sem_wait(sem->write) != 0)
 	{
@@ -76,7 +74,14 @@ bool	display(t_philo *philo, t_sem_info *sem, t_disp disp)
 		return (false);
 	}
 	if (does_im_dead(philo))
+	{
+		if (sem_post(sem->write) != 0)
+		{
+			write(2, "Error post sem\n", 15);
+			return (false);
+		}
 		return (false);
+	}
 	print_str(disp, timestamp_v, philo->id);
 	if (sem_post(sem->write) != 0)
 	{

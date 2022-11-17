@@ -5,9 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/08 15:13:10 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/17 18:56:19 by odessein         ###   ########.fr       */
-/*                                                                            */ /* ************************************************************************** */
+/*   Created: 2022/11/17 22:08:27 by odessein          #+#    #+#             */
+/*   Updated: 2022/11/17 22:08:45 by odessein         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "philo.h"
 
 static void	loop_life(t_sem_info *sem, t_philo *philo)
@@ -33,14 +34,10 @@ static void	loop_life(t_sem_info *sem, t_philo *philo)
 		if (!thinking(philo, sem))
 			break ;
 	}
-//	sem_close(philo->sem_eat);
-//	sem_close(philo->sem_dead);
-	//join_fork
 }
 
 void	routine(t_sem_info *sem, t_philo *philo)
 {
-	//write(2, "Zeuubi\n", 7);
 	if (philo->eat_turn >= philo->info.t_eat_max && philo->info.t_eat_max > -1)
 	{
 		if (sem_post(sem->max) != 0)
@@ -50,10 +47,5 @@ void	routine(t_sem_info *sem, t_philo *philo)
 	if (philo->id % 2 == 0)
 		if (!sleep_loop(philo->info.t_to_eat - 1, philo))
 			return ;
-//	write(2, "Zeuubi\n", 7);
 	loop_life(sem, philo);
-	if (sem_close(sem->bowl) != 0)
-		write(2, "Error closing sem bowl\n", 23);
-	if (sem_close(philo->sem_dead) != 0)
-		write(2, "Error closing sem dead\n", 23);
 }

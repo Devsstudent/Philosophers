@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 15:13:26 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/17 19:08:56 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/17 22:33:44 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -25,36 +25,46 @@ static void	cpy_info(t_info info, t_philo *philo, int index)
 	philo->time_last_eat = philo->info.t_start;
 }
 
-//fork -> check_dead + free + set_dead
+static bool	end_routine(t_philo *philo, t_sem_info *sem)
+{
+	if (sem_close(sem->max) != 0)
+		return (error_msg("Error closing sem max\n"));
+	if (sem_close(sem->bowl) != 0)
+		return (error_msg("Error closing sem bowl\n"));
+	if (sem_close(sem->write) != 0)
+		return (error_msg("Error closing sem write\n"));
+	if (sem_close(sem->end) != 0)
+		return (error_msg("Error closing sem end\n"));
+	if (sem_close(philo->sem_eat) != 0)
+		return (error_msg("Error closing sem eat\n"));
+	if (sem_close(philo->sem_dead) != 0)
+		return (error_msg("Error closing sem dead\n"));
+	return (true);
+	//LOOP CLEAN SEMAPHORE EACH PHILO
+}
 
-//dead -> set dead to true to each process
-//kill -> join fork + kill id correspondant
-
-static bool	create_philo(t_info info, t_sem_info *sem, t_philo *philo, t_info_thread *info_thread)
+static bool	create_philo(t_info info, t_sem_info *sem, t_philo *philo,
+			t_info_thread *info_thread)
 {
 	int	i;
 
 	i = -1;
 	while (++i < info.nb_philo)
 	{
-		//write(2, "AH\n", 3);
+		//HANDLE CRASH FORK
 		philo[i].pid = fork();
 		if (philo[i].pid == 0)
 		{
-			pthread_create(&philo[i].thread_fork, NULL, routine_fork, &info_thread[i]);
-			pthread_create(&philo[i].thread_dead, NULL, routine_dead, &info_thread[i]);
+			//HANDLE CRASH pthread create
+			pthread_create(&philo[i].thread_fork, NULL, routine_fork,
+				&info_thread[i]);
+			pthread_create(&philo[i].thread_dead, NULL, routine_dead,
+				&info_thread[i]);
 			routine(sem, &philo[i]);
-			pthread_join(philo[i].thread_fork, NULL);
 			pthread_join(philo[i].thread_dead, NULL);
-			if (sem_close(sem->max) != 0)
-				write(2, "Error closing sem max\n", 22);
-			if (sem_close(sem->write) != 0)
-				write(2, "Error closing sem write\n", 24);
-			if (sem_close(sem->end) != 0)
-				write(2, "Error closing sem end\n", 22);
-			if (sem_close(philo[i].sem_eat) != 0)
-				write(2, "Error closing sem eat\n", 22);
-			printf("id :%i\n", philo[i].id);
+			pthread_join(philo[i].thread_fork, NULL);
+			end_routine(&philo[i], sem);
+			free(info_thread);
 			return (false);
 		}
 		else
@@ -70,7 +80,6 @@ static bool	wait_philo(t_info info, t_philo *philo, t_info_thread *info_thread)
 	i = -1;
 	while (++i < info.nb_philo)
 	{
-		//join_here dead && free
 		if (waitpid(philo[i].pid, NULL, 0) == -1)
 		{
 			write(2, "Fail on waiting\n", 16);
@@ -84,11 +93,11 @@ static bool	wait_philo(t_info info, t_philo *philo, t_info_thread *info_thread)
 bool	philo_a(t_info info, t_sem_info *sem, t_philo *philo)
 {
 	t_info_thread	*info_thread;
+	int				i;
 
 	info_thread = malloc(sizeof(t_info_thread) * info.nb_philo);
 	if (!info_thread)
 		return (false);
-	int	i;
 	i = -1;
 	while (++i < info.nb_philo)
 	{
@@ -98,7 +107,6 @@ bool	philo_a(t_info info, t_sem_info *sem, t_philo *philo)
 		info_thread[i].philo = &philo[i];
 		info_thread[i].sem = sem;
 	}
-	//memset(&info_thread, 0 ,sizeof(info_thread));
 	if (!create_philo(info, sem, philo, info_thread))
 		return (false);
 	if (!wait_philo(info, philo, info_thread))

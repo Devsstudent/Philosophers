@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 14:17:42 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/15 15:56:30 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/17 22:30:51 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -73,7 +73,7 @@ char	*ft_itoa(int n)
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int	total_len;
+	int		total_len;
 	char	*res;
 	int		i;
 	int		j;
