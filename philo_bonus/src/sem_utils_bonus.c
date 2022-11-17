@@ -6,24 +6,36 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 17:41:19 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/15 16:42:54 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/16 21:38:06 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
 
 static void	sem_start_unlink(void)
 {
+	char	*id;
+	char	*name;
+	int		i;
+
 	sem_unlink("bowl");
 	sem_unlink("write");
 	sem_unlink("max");
 	sem_unlink("end");
+	sem_unlink("catch_fork");
 	//loop delete 200 philo
-	sem_unlink("1_eat");
-	sem_unlink("2_eat");
-	sem_unlink("1_activ");
-	sem_unlink("2_activ");
-	sem_unlink("2_dead");
-	sem_unlink("1_dead");
+	i = 0;
+	while (i < 200)
+	{
+		id = ft_itoa(i + 1);
+		name = ft_strjoin(id, "_eat");
+		sem_unlink(name);
+		free(name);
+		name = ft_strjoin(id, "_dead");
+		sem_unlink(name);
+		free(name);
+		free(id);
+		i++;
+	}
 }
 
 bool	semaphore(t_sem_info *sem, t_info info)
@@ -40,6 +52,9 @@ bool	semaphore(t_sem_info *sem, t_info info)
 		return (error_msg("Error opening semaphore\n"));
 	sem->end = sem_open("end", O_CREAT, S_IRWXU, 0);
 	if (sem->end == SEM_FAILED)
+		return (error_msg("Error opening semaphore\n"));
+	sem->catch_fork = sem_open("catch_fork", O_CREAT, S_IRWXU, 1);
+	if (sem->catch_fork == SEM_FAILED)
 		return (error_msg("Error opening semaphore\n"));
 	return (true);
 }

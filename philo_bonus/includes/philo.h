@@ -52,6 +52,7 @@ typedef struct s_sem_info {
 	sem_t	*write;
 	sem_t	*max;
 	sem_t	*end;
+	sem_t	*catch_fork;
 }			t_sem_info;
 
 typedef struct s_info {
@@ -72,16 +73,13 @@ typedef struct s_philo{
 	bool			die;
 	pthread_t		thread_fork;
 	pthread_t		thread_dead;
-	pthread_t		thread_kill;
 	sem_t			*sem_eat;
-	sem_t			*sem_activ;
 	sem_t			*sem_dead;
 }					t_philo;
 
 typedef struct s_info_thread{
 	t_philo		*philo;
 	t_sem_info	*sem;
-	pthread_t	thread_fork;
 }				t_info_thread;
 
 //action.c

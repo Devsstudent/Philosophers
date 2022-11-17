@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:53:18 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/15 16:19:15 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/16 22:20:47 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -24,6 +24,21 @@ bool	take_fork(t_philo *philo, t_sem_info *sem)
 {
 	if (does_im_dead(philo))
 		return (false);
+	
+	while (1)
+	{
+		if (sem_wait(sem->catch_fork))
+			return (error_msg("error post sem\n"));
+		if (sem->bowl->__align >= 2)
+		{
+			if (sem_post(sem->catch_fork) != 0)
+				return (error_msg("error post sem\n"));
+			break ;
+		}
+		if (sem_post(sem->catch_fork) != 0)
+			return (error_msg("error post sem\n"));
+	}
+	write(2, "AYA\n", 4);
 	if (sem_wait(sem->bowl) != 0)
 		return (error_msg("error wait sem\n"));
 	if (sem_wait(sem->bowl) != 0)
