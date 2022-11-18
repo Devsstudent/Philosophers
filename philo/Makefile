@@ -34,7 +34,6 @@ clean :
 	rm -f $(NAME)
 
 fclean : clean
-	make fclean -s -C ./bonus_dir
 	rm -rf obj
 
 re : fclean all
