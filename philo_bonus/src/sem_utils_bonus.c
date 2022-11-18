@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 12:06:43 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/18 12:06:44 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/18 12:51:35 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -79,5 +79,20 @@ bool	close_sem(t_sem_info *sem)
 		return (false);
 	if (!_close(sem->catch_fork, "catch_fork"))
 		return (false);
+	return (true);
+}
+
+bool	close_philo_sem(t_philo *philo)
+{
+	int	i;
+
+	i = -1;
+	while (++i < philo[0].info.nb_philo)
+	{
+		if (sem_close(philo[i].sem_eat) != 0)
+			return (error_msg("Error closing sem"));
+		if (sem_close(philo[i].sem_dead) != 0)
+			return (error_msg("Error closing sem"));
+	}
 	return (true);
 }

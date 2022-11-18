@@ -6,30 +6,32 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 12:07:24 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/18 12:12:00 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/18 13:00:31 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
-
 
 static void	philo_process(int i, t_sem_info *sem, t_philo *philo,
 			t_info_thread *info_thread)
 {
 	close_usless_sem(philo, i);
-	//HANDLE CRASH pthread create
 	if (pthread_create(&philo[i].thread_fork, NULL, routine_fork,
 			&info_thread[i]) != 0)
-		return ;
+		return (handle_crash_create_fork(i, philo));
 	if (pthread_create(&philo[i].thread_dead, NULL, routine_dead,
 			&info_thread[i]) != 0)
-		return ;
+	{
+		pthread_detach(philo[i].thread_fork);
+		return (handle_crash_create_fork(i, philo));
+	}
 	routine(sem, &philo[i]);
 	if (pthread_join(philo[i].thread_dead, NULL) != 0)
-		return ;
+	{
+		pthread_detach(philo[i].thread_fork);
+		return (handle_crash_join(i, philo));
+	}
 	if (pthread_join(philo[i].thread_fork, NULL) != 0)
-		return ;
-	end_routine(&philo[i], sem);
-	free(info_thread);
+		return (handle_crash_join(i, philo));
 }
 
 static bool	create_philo(t_info info, t_sem_info *sem, t_philo *philo,
@@ -40,11 +42,17 @@ static bool	create_philo(t_info info, t_sem_info *sem, t_philo *philo,
 	i = -1;
 	while (++i < info.nb_philo)
 	{
-		//HANDLE CRASH FORK
 		philo[i].pid = fork();
+		if (philo[i].pid < 0)
+		{
+			handle_crash_create_fork(i, philo);
+			return (false);
+		}
 		if (philo[i].pid == 0)
 		{
 			philo_process(i, sem, philo, info_thread);
+			end_routine(&philo[i], sem);
+			free(info_thread);
 			return (false);
 		}
 		else
@@ -87,21 +95,20 @@ static bool	setup_philo_and_info_thread(t_info info, t_sem_info *sem,
 bool	philo_a(t_info info, t_sem_info *sem, t_philo *philo)
 {
 	t_info_thread	*info_thread;
-	int				i;
 
 	info_thread = malloc(sizeof(t_info_thread) * info.nb_philo);
 	if (!info_thread)
 		return (false);
 	if (!setup_philo_and_info_thread(info, sem, philo, info_thread))
+	{
+		free(info_thread);
+		close_sem(sem);
 		return (false);
+	}
 	if (!create_philo(info, sem, philo, info_thread))
 		return (false);
-	i = -1;
-	while (++i < info.nb_philo)
-	{
-		sem_close(philo[i].sem_eat);
-		sem_close(philo[i].sem_dead);
-	}
+	if (!close_philo_sem(philo))
+		return (false);
 	if (!wait_philo(info, philo, info_thread))
 	{
 		close_sem(sem);

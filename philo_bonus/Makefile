@@ -16,6 +16,7 @@ OBJ = $(addprefix obj/, $(addsuffix _bonus.o, \
 				thread_routine \
 				thread_routine_fork \
 				create_philo \
+				handle_crash \
 				main))
 D_LST = $(OBJ:.o=.d)
 
