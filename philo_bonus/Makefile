@@ -9,11 +9,13 @@ OBJ = $(addprefix obj/, $(addsuffix _bonus.o, \
 				parsing \
 				utils \
 				time \
-				setup_philo \
+				unsetup_philo \
 				routine \
 				sem_utils \
 				ft_itoa \
 				thread_routine \
+				thread_routine_fork \
+				create_philo \
 				main))
 D_LST = $(OBJ:.o=.d)
 

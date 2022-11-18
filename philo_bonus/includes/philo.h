@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 22:07:18 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/17 22:07:21 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/18 12:13:13 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PHILO_H
@@ -109,7 +109,12 @@ bool		parse_input(int ac, char **av, t_info *info);
 //routine.c
 void		routine(t_sem_info *sem, t_philo *philo);
 
-//setup_philo.c
+//unsetup_philo.c
+bool	end_routine(t_philo *philo, t_sem_info *sem);
+bool	close_usless_sem(t_philo *philo, int ind);
+bool	wait_philo(t_info info, t_philo *philo, t_info_thread *info_thread);
+
+//create_philo.c
 bool		philo_a(t_info info, t_sem_info *sem, t_philo *philo);
 
 //time.c

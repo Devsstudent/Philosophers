@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 12:52:13 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/17 17:16:08 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/18 11:47:09 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -46,7 +46,6 @@ bool	thinking(t_philo *philo, t_sem_info *sem)
 
 	if (!display(philo, sem, _THINK))
 		return (false);
-	//Value non arbitraire
 	think = philo->info.t_to_die - philo->info.t_to_sleep
 		- philo->info.t_to_eat - 10;
 	if (think > 0)

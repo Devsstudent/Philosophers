@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 14:27:45 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/18 10:20:31 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/18 11:38:49 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -29,82 +29,6 @@ bool	init_sem_in_philo(t_philo *philo)
 	if (philo->sem_eat == SEM_FAILED)
 		return (false);
 	return (true);
-}
-
-void	*routine_fork(void *content)
-{
-	t_info_thread	*info;
-	long			time_grab_write_sem;
-
-	info = (t_info_thread *) content;
-	while (42)
-	{
-		//if (info->sem->end->__align >= 1 && info->sem->end->__align < 200)
-		//	return (0);
-		if (does_im_dead(info->philo))
-			return (0);
-		if (sem_wait(info->philo->sem_eat) > 0)
-		{
-			write(2, "Error sem_waiting\n", 17);
-			return (0);
-		}
-		if (get_actual_time() - info->philo->time_last_eat
-			>= info->philo->info.t_to_die)
-		{
-			if (sem_wait(info->sem->write) != 0)
-			{
-				write(2, "Error sem_waiting\n", 17);
-				return (0);
-			}
-			if (does_im_dead(info->philo))
-			{
-				if (sem_post(info->philo->sem_eat) != 0)
-					write(2, "Error sem_posting\n", 17);
-				if (sem_post(info->sem->end) != 0)
-				{
-					write(2, "Error sem_posting\n", 17);
-					return (0);
-				}
-				if (sem_post(info->sem->write) != 0)
-				{
-					write(2, "Error sem_posting\n", 17);
-					return (0);
-				}
-				return (0);
-			}
-			print_str(_DIE, timestamp(info->philo->info.t_start),
-				info->philo->id);
-			if (sem_post(info->sem->end) != 0)
-			{
-				write(2, "Error sem_posting\n", 17);
-				return (0);
-			}
-			break ;
-		}
-		else if (info->sem->max->__align >= info->philo->info.nb_philo)
-		{
-			//MARCHE PAS
-			if (sem_post(info->sem->end) != 0)
-			{
-				write(2, "Error sem_posting\n", 17);
-				return (0);
-			}
-			break ;
-		}
-		//printf("HERE:%li\n", info->sem->max->__align);
-		if (sem_post(info->philo->sem_eat) != 0)
-			write(2, "Error sem_posting\n", 17);
-		usleep(500);
-	}
-	sem_post(info->philo->sem_eat);
-	time_grab_write_sem = info->philo->info.nb_philo * 500;
-	usleep(time_grab_write_sem);
-	if (sem_post(info->sem->write) != 0)
-	{
-		write(2, "Error sem_posting\n", 17);
-		return (0);
-	}
-	return (0);
 }
 
 void	*routine_dead(void *content)

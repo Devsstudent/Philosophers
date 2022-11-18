@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/08 17:41:19 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/18 10:18:52 by odessein         ###   ########.fr       */
+/*   Created: 2022/11/18 12:06:43 by odessein          #+#    #+#             */
+/*   Updated: 2022/11/18 12:06:44 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -23,7 +23,7 @@ static void	sem_start_unlink(void)
 	sem_unlink("end");
 	sem_unlink("catch_fork");
 	i = 0;
-	while (i < 200)
+	while (i < 600)
 	{
 		id = ft_itoa(i + 1);
 		name = ft_strjoin(id, "_eat");
@@ -52,7 +52,7 @@ bool	semaphore(t_sem_info *sem, t_info info)
 	sem->end = sem_open("end", O_CREAT, S_IRWXU, 0);
 	if (sem->end == SEM_FAILED)
 		return (error_msg("Error opening semaphore\n"));
-	sem->catch_fork = sem_open("catch_fork", O_CREAT, S_IRWXU, 1);
+	sem->catch_fork = sem_open("catch_fork", O_CREAT, S_IRWXU, 0);
 	if (sem->catch_fork == SEM_FAILED)
 		return (error_msg("Error opening semaphore\n"));
 	return (true);
@@ -76,6 +76,8 @@ bool	close_sem(t_sem_info *sem)
 	if (!_close(sem->bowl, "bowl"))
 		return (false);
 	if (!_close(sem->end, "end"))
+		return (false);
+	if (!_close(sem->catch_fork, "catch_fork"))
 		return (false);
 	return (true);
 }
