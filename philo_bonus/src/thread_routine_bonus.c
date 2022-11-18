@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 14:27:45 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/17 22:40:41 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/18 10:20:31 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -34,7 +34,6 @@ bool	init_sem_in_philo(t_philo *philo)
 void	*routine_fork(void *content)
 {
 	t_info_thread	*info;
-	long			value;
 	long			time_grab_write_sem;
 
 	info = (t_info_thread *) content;
@@ -49,7 +48,6 @@ void	*routine_fork(void *content)
 			write(2, "Error sem_waiting\n", 17);
 			return (0);
 		}
-		value = info->sem->max->__align;
 		if (get_actual_time() - info->philo->time_last_eat
 			>= info->philo->info.t_to_die)
 		{
@@ -83,7 +81,7 @@ void	*routine_fork(void *content)
 			}
 			break ;
 		}
-		else if (value == info->philo->info.nb_philo)
+		else if (info->sem->max->__align >= info->philo->info.nb_philo)
 		{
 			//MARCHE PAS
 			if (sem_post(info->sem->end) != 0)
@@ -93,6 +91,7 @@ void	*routine_fork(void *content)
 			}
 			break ;
 		}
+		//printf("HERE:%li\n", info->sem->max->__align);
 		if (sem_post(info->philo->sem_eat) != 0)
 			write(2, "Error sem_posting\n", 17);
 		usleep(500);

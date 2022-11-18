@@ -6,7 +6,7 @@
 /*   By: odessein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 22:08:27 by odessein          #+#    #+#             */
-/*   Updated: 2022/11/17 22:08:45 by odessein         ###   ########.fr       */
+/*   Updated: 2022/11/18 10:22:41 by odessein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -22,18 +22,18 @@ static void	loop_life(t_sem_info *sem, t_philo *philo)
 			break ;
 		if (!eating(philo, sem))
 			break ;
-		if (philo->eat_turn >= philo->info.t_eat_max
+		if (philo->eat_turn == philo->info.t_eat_max
 			&& philo->info.t_eat_max > -1)
 		{
 			if (sem_post(sem->max) != 0)
 				write(2, "fail sem post\n", 11);
-			break ;
 		}
 		if (!sleeping(philo, sem))
 			break ;
 		if (!thinking(philo, sem))
 			break ;
 	}
+//	printf("eat_turn : %li\n", philo->eat_turn);
 }
 
 void	routine(t_sem_info *sem, t_philo *philo)
