@@ -45,4 +45,7 @@ Several solutions exist to address the Dining Philosophers Problem, each with it
 
 The Dining Philosophers Problem highlights the complexities of concurrent programming and the importance of synchronization mechanisms to ensure the safe sharing of resources. Various solutions exist, each with trade-offs in terms of performance, simplicity, and adherence to deadlock avoidance principles.
 
+### Bonus
+For the bonus the problem was the same, but instead of each Philosphers being a thread, there were a process. So i use 2 thread to monitor each process. Using semaphores to communicate between processus.
+
 ![Score](./Images/Philo_score.png "Score")
